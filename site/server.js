@@ -142,4 +142,3 @@ function defineTypes() {
     }
     return types;
 }
-
