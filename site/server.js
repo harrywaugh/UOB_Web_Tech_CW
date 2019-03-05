@@ -115,7 +115,7 @@ function fail(response, code, text) {
 // complete list, install the mime module and adapt the list it provides.
 function defineTypes() {
     let types = {
-        html : "application/xhtml+xml",
+        html : "text/html",
         css  : "text/css",
         js   : "application/javascript",
         mjs  : "application/javascript", // for ES6 modules
