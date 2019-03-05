@@ -11,9 +11,15 @@
 // not supported. Add to the list of file types in defineTypes, as necessary.
 
 // Change the port to the default 80, if there are no permission issues and port
-// 80 isn't already in use. The root folder corresponds to the "/" url.
+// 80 isn't already in use. The root folder corresponds to the "/" url. expr
+// const express = require('express')
+// const app = express()
+const pug = require('pug');
+
+
 let port = 8080;
 let root = "./public"
+
 
 // Load the library modules, and define the global constants and variables.
 // Load the promises version of fs, so that async/await can be used.
@@ -95,7 +101,7 @@ function findType(url) {
 function deliver(response, type, content) {
     let typeHeader = { "Content-Type": type };
     response.writeHead(OK, typeHeader);
-    response.write(content);
+    response.write(pug.renderFile('public/views/test.pug', {title: 'Title', message: 'I\'m and message'}));
     response.end();
 }
 
