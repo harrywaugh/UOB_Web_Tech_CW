@@ -14,3 +14,11 @@ app.get('/', function (req, res) {
 app.get('/login', function (req, res) {
   res.render('login', { title: 'Login Page' })
 })
+
+app.post('/', function (req, res) {
+  response = {
+    username:req.body.username,
+    password:req.body.password
+  };
+  console.log(response)
+})
