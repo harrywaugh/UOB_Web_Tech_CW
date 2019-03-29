@@ -1,7 +1,6 @@
-html
-  head
-    title= title
-  body
+extends ../layout.pug
+
+block main
     form(method="POST", action='http://localhost:8080/')
       div.form-group
         label(for="username") Username:

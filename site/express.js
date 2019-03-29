@@ -8,11 +8,11 @@ app.set('views', './views')
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 app.get('/', function (req, res) {
-  res.render('home', { title: 'Home Page', message: 'Hello there, this is the home page!' })
+  res.render('pages/home', { title: 'Home Page', welcome_name: '' })
 })
 
 app.get('/login', function (req, res) {
-  res.render('login', { title: 'Login Page' })
+  res.render('pages/login', { title: 'Login Page' })
 })
 
 app.post('/', function (req, res) {
