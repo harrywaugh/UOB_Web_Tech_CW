@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
-var bodyParser = require("body-parser");
+const bodyParser = require("body-parser");
+const sqlite3 = require('sqlite3').verbose();
 const port = 8080
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -12,7 +13,7 @@ app.set('views', './views')
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 app.get('/', function (req, res) {
-  res.render('pages/home', { title: 'Home Page', welcome_name: '' })
+  res.render('pages/home', { title: 'Home Page', welcome_name: 'there' })
 })
 
 app.get('/login', function (req, res) {
@@ -22,7 +23,22 @@ app.get('/login', function (req, res) {
 app.post('/', function (req, res) {
   var username = req.body.username;
   var password = req.body.password;
-  console.log(username)
-  console.log(password)
+  console.log("Username = " + username + "\nPassword = " + password);
   res.render('pages/home', { title: 'Home Page', welcome_name: username })
 })
+
+// open database in memory
+let db = new sqlite3.Database('./db/users.db', (err) => {
+  if (err) {
+    return console.error(err.message);
+  }
+  console.log('Connected to the in-memory SQlite database.');
+});
+
+// close the database connection
+db.close((err) => {
+  if (err) {
+    return console.error(err.message);
+  }
+  console.log('Close the database connection.');
+});
