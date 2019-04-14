@@ -1,6 +1,8 @@
 extends ../layout.pug
 
 block main
+    if locals.error_msg
+      p= error_msg
     form(method="POST", action='http://localhost:8080/login')
       div.form-group
         label(for="username") Username:
