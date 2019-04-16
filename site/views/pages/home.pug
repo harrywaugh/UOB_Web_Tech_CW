@@ -2,4 +2,8 @@ extends ../layout.pug
 
 block main
     h1="Hello " + welcome_name + ", this is the home page!"
-    a(href="/login") Login
+    if locals.logged_in
+      form(method="POST", action='http://localhost:8080/logout')
+        button.btn.btn-primary(type="submit") Logout
+    else
+      a(href="/login") Login
