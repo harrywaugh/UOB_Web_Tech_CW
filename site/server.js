@@ -1,6 +1,7 @@
 "use strict";
+
 /////////////////////////////////
-// Node server setup
+// Node Configuration
 /////////////////////////////////
 const express = require('express')
 const app = express()
@@ -56,6 +57,7 @@ let db = new sqlite3.Database('./db/users.db', (err) => {
   db.exec(db_schema);
   insert("hw16471", "pass");
 });
+
 
 /////////////////////////////////
 // Database queries
