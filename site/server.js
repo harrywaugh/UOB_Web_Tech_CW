@@ -3,13 +3,14 @@
 /////////////////////////////////
 // Constant Initialisation
 /////////////////////////////////
-const express = require('express')
-const session = require('express-session');
-const uuid = require('uuid/v4')
-const app = express()
+const express    = require('express')
+const session    = require('express-session');
+const uuid       = require('uuid/v4')
 const bodyParser = require("body-parser");
-const sqlite3 = require('sqlite3').verbose();
-const port = 8080
+const sqlite3    = require('sqlite3').verbose();
+const bcrypt     = require('bcrypt');
+const app        = express()
+const port       = 8080
 
 /////////////////////////////////
 // Node Configuration
@@ -83,7 +84,9 @@ function insert_entry(username, password, sessionID){
   db.all("select * from Accounts where username='"+username+"';" , (err, rows) => {
     if (err) throw err;
     if(rows.length == 0)
-      db.exec("INSERT INTO Accounts (username,password,session) VALUES ('"+username+"','"+password+"','"+sessionID+"');");
+      bcrypt.hash(password, 10, function(err, hash) {
+        db.exec("INSERT INTO Accounts (username,password,session) VALUES ('"+username+"','"+hash+"','"+sessionID+"');");
+      });
   });
 }
 
@@ -91,10 +94,10 @@ function check_login(username, password, req, res){
   db.all("select * from Accounts where username='"+username+"';" , (err, rows) => {
   if (err) throw err; 
   for (var i = 0; i < rows.length; i++) {
-    if (rows[i]['password'] === password)  { //Needs to hashed
+    if (bcrypt.compareSync(password, rows[i]['password']))  { //Needs to hashed
       console.log("\nUser logged in with the following credentials\nUsername = " + username);
       console.log("Password = " + password);
-      db.exec("REPLACE INTO Accounts (username,password,session) VALUES ('"+username+"','"+password+"','"+req.sessionID+"');");
+      db.exec("REPLACE INTO Accounts (username,password,session) VALUES ('"+rows[i]['username']+"','"+rows[i]['password']+"','"+req.sessionID+"');");
       res.render('pages/home', { welcome_name: username, logged_in: true  });
       return;
     }
