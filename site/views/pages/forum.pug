@@ -40,21 +40,23 @@ block main
                       |             Donec sollicitudin urna eget eros malesuada sagittis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam blandit nisl a nulla sagittis, a lobortis leo feugiat.
                       br
                       small 3 hrs
-        div.box
-          article.media
-            figure.media-left
-              p.image.is-64x64
-                img(src='https://bulma.io/images/placeholders/128x128.png')
-            .media-content.is-success
-              .content
-                p
-                  strong Harry
-                  br
-                  |         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis porta eros lacus, nec ultricies elit blandit non. Suspendisse pellentesque mauris sit amet dolor blandit rutrum. Nunc in tempus turpis.
-                  br
-                  small
-                    a Reply
-                    |  · 3 hrs
+
+        each message in posts
+          div.box
+            article.media
+              figure.media-left
+                p.image.is-64x64
+                  img(src='https://bulma.io/images/placeholders/128x128.png')
+              .media-content.is-success
+                .content
+                  p
+                    strong Harry
+                    br
+                    |         message
+                    br
+                    small
+                      a Reply
+                      |  · 3 hrs
       div.column.is-4
         div.box
           article.media
@@ -67,4 +69,5 @@ block main
                   div.field
                     br
                     button.button.is-info.form-control(type="submit") Create Post 
+
 

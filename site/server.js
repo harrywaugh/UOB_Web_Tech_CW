@@ -38,7 +38,7 @@ app.listen(port, () => console.log(`Server started, running on ${port}.`))
 /////////////////////////////////
 app.get('/',         function (req, res) { existing_session('pages/home',     req, res, {});})
 app.get('/login',    function (req, res) { res.render('pages/login'); })
-app.get('/forum',    function (req, res) { existing_session('pages/forum',    req, res, {}); })
+app.get('/forum',    function (req, res) { render_forum('pages/forum',    req, res); })
 app.get('/tutorial', function (req, res) { existing_session('pages/tutorial', req, res, {}); })
 app.get('/new_user', function (req, res) { res.render('pages/new_user'); })
 
@@ -142,6 +142,24 @@ function existing_session(view, req, res, args){
   });
 }
 
+function render_forum(view, req, res)  {
+  db.all("select * from Forum;" , (err, rows) => {
+    if (err) throw err;
+    var messages=[];
+    for (var r=0; r < rows.length; r++)  {
+      messages.push(rows[r]['message']);
+    }
+    db.all("select * from Accounts where session='"+req.sessionID+"';" , (err, rows) => {
+      if (err) throw err;
+      if(rows.length > 0)  {
+        res.render(view, { welcome_name: rows[0]['username'], logged_in: true });
+      } else {
+        res.render(view, { welcome_name: 'there', posts: messages});
+      }
+    });
+  });
+}
+
 function logout(req, res)  {
   db.all("select * from Accounts where session='"+req.sessionID+"';" , (err, rows) => {
     if (err) throw err;
@@ -151,6 +169,10 @@ function logout(req, res)  {
     res.render('pages/home', { welcome_name: 'there'});
 
   });
+}
+
+function get_posts()  {
+
 }
 
 //Logout function
