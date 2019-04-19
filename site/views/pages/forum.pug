@@ -59,11 +59,12 @@ block main
         div.box
           article.media
             .media-content
-              .field
-                h2.subtitle Create Post
-                p.control
-                  textarea.textarea(placeholder='Add a comment...')
-              .field
-                p.control
-                  button.button.is-info Post comment
+              form(method="POST", action='http://localhost:8080/create_post')
+                .form-group
+                  label(for="post") Anything we can do?
+                  textarea.textarea.form-control(placeholder='Go on spill it..', type="text", name="post")
+                .form-group
+                  div.field
+                    br
+                    button.button.is-info.form-control(type="submit") Create Post 
 

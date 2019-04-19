@@ -60,6 +60,11 @@ app.post('/new_user', function (req, res) {
   var password2 = req.body.password2;
   create_user(username, password, password2, req, res);
 })
+app.post('/create_post', function (req, res) {
+  var post = req.body.post;
+  console.log(post);
+  existing_session('pages/forum',     req, res);
+})
 
 /////////////////////////////////
 // Open database connection
@@ -70,17 +75,21 @@ let db = new sqlite3.Database('./db/users.db', (err) => {
     return console.error(err.message);
   }
   console.log('Connection opened to database.');
-  db.exec(db_schema);
-  insert_entry("hw16471", "pass", "NULL");
+  db.exec(account_schema);
+  db.exec(forum_schema);
+  insert_user("hw16471", "pass", "NULL");
+  insert_post("Im a message");
 });
 
+//Currently vulnerable to sql injection, single quotes!!
 
 /////////////////////////////////
 // Database queries
 /////////////////////////////////
-const db_schema = "CREATE TABLE IF NOT EXISTS Accounts (username TEXT PRIMARY KEY,password TEXT,session TEXT);"
+const account_schema = "CREATE TABLE IF NOT EXISTS Accounts (username TEXT PRIMARY KEY,password TEXT,session TEXT);"
+const forum_schema   = "CREATE TABLE IF NOT EXISTS Forum (post_id INTEGER PRIMARY KEY AUTOINCREMENT,message TEXT);"
 
-function insert_entry(username, password, sessionID){
+function insert_user(username, password, sessionID){
   db.all("select * from Accounts where username='"+username+"';" , (err, rows) => {
     if (err) throw err;
     if(rows.length == 0)
@@ -88,6 +97,10 @@ function insert_entry(username, password, sessionID){
         db.exec("INSERT INTO Accounts (username,password,session) VALUES ('"+username+"','"+hash+"','"+sessionID+"');");
       });
   });
+}
+
+function insert_post(message){
+  db.exec("INSERT INTO Forum ('post_id','message') VALUES (NULL,'"+message+"');");
 }
 
 function check_login(username, password, req, res){
@@ -111,7 +124,7 @@ function create_user(username, password, password2, req, res){
     console.log("\nUser created an account with the following credentials\nUsername = " + username);
     console.log("Password = " + password);
     console.log("Password2 = " + password2);
-    insert_entry(username, password, req.sessionID);
+    insert_user(username, password, req.sessionID);
     res.render('pages/home', { welcome_name: username, logged_in: true  });
   } else {
     res.render('pages/new_user', { error_msg: "Passwords dont match" })
