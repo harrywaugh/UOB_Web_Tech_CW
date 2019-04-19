@@ -2,10 +2,68 @@ extends ../layout.pug
 
 
 block main
-  section.hero.is-success.is-2.is-bold
+  section.hero.is-success.is-2.is-small
     .hero-body
       .container.has-text-centered
-        h1.title="Hey " + welcome_name + "! Welcome to the Khaos Kitchen forum!"
-        h2.subtitle Here you can keep up to date with the latest Khaos Kitchen news, discuss Khaos Kitchen with the community and post your own ideas and issues!
-        include ../media/store-apple.svg
-        include ../media/store-google.svg
+        h1.title="Hey "+ welcome_name +" ! Welcome to the Khaos Kitchen forum!"
+        h2.subtitle 
+          | Here you can keep up to date with the latest Khaos Kitchen news, discuss Khaos Kitchen with the community and post 
+          | your own ideas and issues!
+
+  section.section
+    div.columns
+      div.column.is-6.is-offset-1
+        div.box
+          article.media
+            figure.media-left
+              p.image.is-64x64
+                img(src='https://bulma.io/images/placeholders/128x128.png')
+            .media-content
+              .content
+                p
+                  strong Harry
+                  br
+                  |         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis porta eros lacus, nec ultricies elit blandit non. Suspendisse pellentesque mauris sit amet dolor blandit rutrum. Nunc in tempus turpis.
+                  br
+                  small
+                    a Reply
+                    |  · 3 hrs
+              article.media
+                figure.media-left
+                  p.image.is-48x48
+                    img(src='https://bulma.io/images/placeholders/96x96.png')
+                .media-content
+                  .content
+                    p
+                      strong Finn
+                      br
+                      |             Donec sollicitudin urna eget eros malesuada sagittis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam blandit nisl a nulla sagittis, a lobortis leo feugiat.
+                      br
+                      small 3 hrs
+        div.box
+          article.media
+            figure.media-left
+              p.image.is-64x64
+                img(src='https://bulma.io/images/placeholders/128x128.png')
+            .media-content.is-success
+              .content
+                p
+                  strong Harry
+                  br
+                  |         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis porta eros lacus, nec ultricies elit blandit non. Suspendisse pellentesque mauris sit amet dolor blandit rutrum. Nunc in tempus turpis.
+                  br
+                  small
+                    a Reply
+                    |  · 3 hrs
+      div.column.is-4
+        div.box
+          article.media
+            .media-content
+              .field
+                h2.subtitle Create Post
+                p.control
+                  textarea.textarea(placeholder='Add a comment...')
+              .field
+                p.control
+                  button.button.is-info Post comment
+
