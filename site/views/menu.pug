@@ -1,8 +1,21 @@
 //- Start rendering page
-ul.navigation
-  li
-    a(href='/') Home
-  li
-    a(href='/tutorial') Tutorial
-  li
-    a(href='/forum') Forum
+nav.navbar.is-dark.has-shadow
+  .container
+    .navbar-brand
+      a.navbar-item(href='/')
+        p#brand-title
+          strong KHAOS KITCHEN
+      span.navbar-burger.burger(data-target='navbarMenu')
+        span
+        span
+        span
+    .navbar-menu
+      .navbar-end
+        a.navbar-item(href='/') Home
+        a.navbar-item(href='/tutorial') Tutorial
+        a.navbar-item(href='/forum') Forum
+        if locals.logged_in
+          form(method="POST", action='http://localhost:8080/logout')
+            button.navbar-item.has-text-danger.logout-button(type="submit") Logout
+        else
+          a.navbar-item.has-text-success(href='/login') Login

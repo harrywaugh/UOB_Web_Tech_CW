@@ -2,4 +2,10 @@ extends ../layout.pug
 
 
 block main
-    h1="Hello " + welcome_name + ", this is the forum page!"
+  section.hero.is-success.is-2.is-bold
+    .hero-body
+      .container.has-text-centered
+        h1.title="Hey " + welcome_name + "! Welcome to the Khaos Kitchen forum!"
+        h2.subtitle Here you can keep up to date with the latest Khaos Kitchen news, discuss Khaos Kitchen with the community and post your own ideas and issues!
+        include ../media/store-apple.svg
+        include ../media/store-google.svg
