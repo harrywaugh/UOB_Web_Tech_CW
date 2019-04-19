@@ -36,10 +36,10 @@ app.listen(port, () => console.log(`Server started, running on ${port}.`))
 /////////////////////////////////
 // Map GET requests
 /////////////////////////////////
-app.get('/',         function (req, res) { existing_session('pages/home',     req, res);})
+app.get('/',         function (req, res) { existing_session('pages/home',     req, res, {});})
 app.get('/login',    function (req, res) { res.render('pages/login'); })
-app.get('/forum',    function (req, res) { existing_session('pages/forum',    req, res); })
-app.get('/tutorial', function (req, res) { existing_session('pages/tutorial', req, res); })
+app.get('/forum',    function (req, res) { existing_session('pages/forum',    req, res, {}); })
+app.get('/tutorial', function (req, res) { existing_session('pages/tutorial', req, res, {}); })
 app.get('/new_user', function (req, res) { res.render('pages/new_user'); })
 
 
@@ -131,13 +131,13 @@ function create_user(username, password, password2, req, res){
   }
 }
 
-function existing_session(view, req, res){
+function existing_session(view, req, res, args){
   db.all("select * from Accounts where session='"+req.sessionID+"';" , (err, rows) => {
     if (err) throw err;
     if(rows.length > 0)  {
       res.render(view, { welcome_name: rows[0]['username'], logged_in: true });
     } else {
-      res.render(view, { welcome_name: 'there' });
+      res.render(view, Object.assign({}, { welcome_name: 'there' }, args));
     }
   });
 }
