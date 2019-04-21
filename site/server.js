@@ -62,7 +62,7 @@ app.post('/new_user', function (req, res) {
 })
 app.post('/create_post', function (req, res) {
   var post = req.body.post;
-  insert_post(post);
+  insert_post(post, req);
   render_forum('pages/forum',     req, res);
 })
 
@@ -78,7 +78,7 @@ let db = new sqlite3.Database('./db/users.db', (err) => {
   db.exec(account_schema);
   db.exec(forum_schema);
   insert_user("hw16471", "pass", "NULL");
-  insert_post("Im a message");
+  // insert_post("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis porta eros lacus, nec ultricies elit blandit non. Suspendisse pellentesque mauris sit amet dolor blandit rutrum. Nunc in tempus turpis.");
 });
 
 //Currently vulnerable to sql injection, single quotes!!
@@ -87,7 +87,7 @@ let db = new sqlite3.Database('./db/users.db', (err) => {
 // Database queries
 /////////////////////////////////
 const account_schema = "CREATE TABLE IF NOT EXISTS Accounts (username TEXT PRIMARY KEY,password TEXT,session TEXT);"
-const forum_schema   = "CREATE TABLE IF NOT EXISTS Forum (post_id INTEGER PRIMARY KEY AUTOINCREMENT,message TEXT);"
+const forum_schema   = "CREATE TABLE IF NOT EXISTS Forum (post_id INTEGER PRIMARY KEY AUTOINCREMENT,message TEXT,username TEXT, FOREIGN KEY (username) REFERENCES Accounts(username));"
 
 function insert_user(username, password, sessionID){
   db.all("select * from Accounts where username='"+username+"';" , (err, rows) => {
@@ -99,8 +99,13 @@ function insert_user(username, password, sessionID){
   });
 }
 
-function insert_post(message){
-  db.exec("INSERT INTO Forum ('post_id','message') VALUES (NULL,'"+message+"');");
+function insert_post(message, req){
+  db.all("select * from Accounts where session='"+req.sessionID+"';" , (err, rows) => {
+    if (err) throw err;
+    if(rows.length > 0)  {
+      db.exec("INSERT INTO Forum ('post_id','message', 'username') VALUES (NULL,'"+message+"','"+rows[0]['username']+"');");
+    }
+  });
 }
 
 function check_login(username, password, req, res){
@@ -145,18 +150,11 @@ function existing_session(view, req, res, args){
 function render_forum(view, req, res)  {
   db.all("select * from Forum;" , (err, rows) => {
     if (err) throw err;
-    var messages=[];
+    var message_data_list=[];
     for (var r=0; r < rows.length; r++)  {
-      messages.push(rows[r]['message']);
+      message_data_list.push({username: rows[r]['username'], message: rows[r]['message']});
     }
-    db.all("select * from Accounts where session='"+req.sessionID+"';" , (err, rows) => {
-      if (err) throw err;
-      if(rows.length > 0)  {
-        res.render(view, { welcome_name: rows[0]['username'], logged_in: true });
-      } else {
-        res.render(view, { welcome_name: 'there', posts: messages});
-      }
-    });
+    existing_session(view, req, res, { posts : message_data_list.reverse()});
   });
 }
 

@@ -13,33 +13,33 @@ block main
   section.section
     div.columns
       div.column.is-6.is-offset-1
-        div.box
-          article.media
-            figure.media-left
-              p.image.is-64x64
-                img(src='https://bulma.io/images/placeholders/128x128.png')
-            .media-content
-              .content
-                p
-                  strong Harry
-                  br
-                  |         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis porta eros lacus, nec ultricies elit blandit non. Suspendisse pellentesque mauris sit amet dolor blandit rutrum. Nunc in tempus turpis.
-                  br
-                  small
-                    a Reply
-                    |  · 3 hrs
-              article.media
-                figure.media-left
-                  p.image.is-48x48
-                    img(src='https://bulma.io/images/placeholders/96x96.png')
-                .media-content
-                  .content
-                    p
-                      strong Finn
-                      br
-                      |             Donec sollicitudin urna eget eros malesuada sagittis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam blandit nisl a nulla sagittis, a lobortis leo feugiat.
-                      br
-                      small 3 hrs
+        // div.box
+        //   article.media
+        //     figure.media-left
+        //       p.image.is-64x64
+        //         img(src='https://bulma.io/images/placeholders/128x128.png')
+        //     .media-content
+        //       .content
+        //         p
+        //           strong Harry
+        //           br
+        //           |         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis porta eros lacus, nec ultricies elit blandit non. Suspendisse pellentesque mauris sit amet dolor blandit rutrum. Nunc in tempus turpis.
+        //           br
+        //           small
+        //             a Reply
+        //             |  · 3 hrs
+        //       article.media
+        //         figure.media-left
+        //           p.image.is-48x48
+        //             img(src='https://bulma.io/images/placeholders/96x96.png')
+        //         .media-content
+        //           .content
+        //             p
+        //               strong Finn
+        //               br
+        //               |             Donec sollicitudin urna eget eros malesuada sagittis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam blandit nisl a nulla sagittis, a lobortis leo feugiat.
+        //               br
+        //               small 3 hrs
 
         each message in posts
           div.box
@@ -50,8 +50,8 @@ block main
               .media-content.is-success
                 .content
                   p
-                    strong Harry
-                  p=message
+                    strong=message['username']
+                  p=message['message']
                     br
                     small
                       a Reply
