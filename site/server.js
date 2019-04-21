@@ -62,8 +62,8 @@ app.post('/new_user', function (req, res) {
 })
 app.post('/create_post', function (req, res) {
   var post = req.body.post;
-  console.log(post);
-  existing_session('pages/forum',     req, res);
+  insert_post(post);
+  render_forum('pages/forum',     req, res);
 })
 
 /////////////////////////////////
