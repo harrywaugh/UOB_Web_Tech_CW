@@ -62,8 +62,7 @@ app.post('/new_user', function (req, res) {
 })
 app.post('/create_post', function (req, res) {
   var post = req.body.post;
-  insert_post(post, req);
-  render_forum('pages/forum',     req, res);
+  insert_post(post, req, res);
 })
 
 /////////////////////////////////
@@ -99,11 +98,16 @@ function insert_user(username, password, sessionID){
   });
 }
 
-function insert_post(message, req){
+function insert_post(message, req, res){
+  console.log("inserting post");
+
   db.all("select * from Accounts where session='"+req.sessionID+"';" , (err, rows) => {
     if (err) throw err;
     if(rows.length > 0)  {
-      db.exec("INSERT INTO Forum ('post_id','message', 'username') VALUES (NULL,'"+message+"','"+rows[0]['username']+"');");
+      db.exec("INSERT INTO Forum ('post_id','message', 'username') VALUES (NULL,'"+message+"','"+rows[0]['username']+"');", () => {
+        render_forum('pages/forum',     req, res);
+
+      });
     }
   });
 }
@@ -140,7 +144,7 @@ function existing_session(view, req, res, args){
   db.all("select * from Accounts where session='"+req.sessionID+"';" , (err, rows) => {
     if (err) throw err;
     if(rows.length > 0)  {
-      res.render(view, { welcome_name: rows[0]['username'], logged_in: true });
+      res.render(view, Object.assign({}, { welcome_name: rows[0]['username'], logged_in: true}, args));
     } else {
       res.render(view, Object.assign({}, { welcome_name: 'there' }, args));
     }
@@ -148,12 +152,15 @@ function existing_session(view, req, res, args){
 }
 
 function render_forum(view, req, res)  {
+  console.log("rendering forum");
+
   db.all("select * from Forum;" , (err, rows) => {
     if (err) throw err;
     var message_data_list=[];
     for (var r=0; r < rows.length; r++)  {
       message_data_list.push({username: rows[r]['username'], message: rows[r]['message']});
     }
+    console.log(message_data_list);
     existing_session(view, req, res, { posts : message_data_list.reverse()});
   });
 }
@@ -167,10 +174,6 @@ function logout(req, res)  {
     res.render('pages/home', { welcome_name: 'there'});
 
   });
-}
-
-function get_posts()  {
-
 }
 
 //Logout function

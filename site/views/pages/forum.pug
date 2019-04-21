@@ -56,17 +56,25 @@ block main
                     small
                       a Reply
                       |  · 3 hrs
+        else 
+          div.box
+            p No posts in the forum
       div.column.is-4
         div.box
-          article.media
-            .media-content
-              form(method="POST", action='http://localhost:8080/create_post')
-                .form-group
-                  label(for="post") Anything we can do?
-                  textarea.textarea.form-control(placeholder='Go on spill it..', type="text", name="post")
-                .form-group
-                  div.field
-                    br
-                    button.button.is-info.form-control(type="submit") Create Post 
+          if locals.logged_in
+            article.media
+              .media-content
+                form(method="POST", action='http://localhost:8080/create_post')
+                  .form-group
+                    label(for="post") Anything we can do?
+                    textarea.textarea.form-control(placeholder='Go on spill it..', type="text", name="post")
+                  .form-group
+                    div.field
+                      br
+                      button.button.is-info.form-control(type="submit") Create Post 
+          else
+            h2 Please login to create a post.
+            br
+            a.button.is-button.is-link(href="/login") Login
 
 
