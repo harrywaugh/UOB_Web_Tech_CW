@@ -30,7 +30,7 @@ app.set('views', './views')
 /////////////////////////////////
 // Set server to listen on port
 /////////////////////////////////
-app.listen(port, () => console.log(`Server started, running on ${port}.`))
+app.listen(port, 'localhost', () => console.log(`Server started, running on ${port}.`))
 
 
 /////////////////////////////////
@@ -88,51 +88,51 @@ let db = new sqlite3.Database('./db/users.db', (err) => {
 const account_schema = "CREATE TABLE IF NOT EXISTS Accounts (username TEXT PRIMARY KEY,password TEXT,session TEXT);"
 const forum_schema   = "CREATE TABLE IF NOT EXISTS Forum (post_id INTEGER PRIMARY KEY AUTOINCREMENT,message TEXT,username TEXT, FOREIGN KEY (username) REFERENCES Accounts(username));"
 
+const account_select_username = db.prepare("SELECT * FROM Accounts WHERE username=?");
+const account_select_session  = db.prepare("SELECT * FROM Accounts WHERE session=?");
+const account_insert          = db.prepare("REPLACE INTO Accounts (username,password,session) VALUES (?,?,?);");
+const forum_insert_post       = db.prepare("INSERT INTO Forum (post_id,message,username) VALUES (NULL,?,?);");
+const forum_select            = db.prepare("select * from Forum;");
+
+
 function insert_user(username, password, sessionID){
-  db.all("select * from Accounts where username='"+username+"';" , (err, rows) => {
+  account_select_username.all([username] , (err, rows) => {
     if (err) throw err;
     if(rows.length == 0)
       bcrypt.hash(password, 10, function(err, hash) {
-        db.exec("INSERT INTO Accounts (username,password,session) VALUES ('"+username+"','"+hash+"','"+sessionID+"');");
+        account_insert.run([username, hash, sessionID]);
       });
   });
 }
 
 function insert_post(message, req, res){
   console.log("inserting post");
-
-  db.all("select * from Accounts where session='"+req.sessionID+"';" , (err, rows) => {
+  account_select_session.all([req.sessionID] , (err, rows) => {
     if (err) throw err;
     if(rows.length > 0)  {
-      db.exec("INSERT INTO Forum ('post_id','message', 'username') VALUES (NULL,'"+message+"','"+rows[0]['username']+"');", () => {
+      forum_insert_post.run([message, rows[0]['username']], () => {
         render_forum('pages/forum',     req, res);
-
       });
     }
   });
 }
 
 function check_login(username, password, req, res){
-  db.all("select * from Accounts where username='"+username+"';" , (err, rows) => {
-  if (err) throw err; 
-  for (var i = 0; i < rows.length; i++) {
-    if (bcrypt.compareSync(password, rows[i]['password']))  { //Needs to hashed
-      console.log("\nUser logged in with the following credentials\nUsername = " + username);
-      console.log("Password = " + password);
-      db.exec("REPLACE INTO Accounts (username,password,session) VALUES ('"+rows[i]['username']+"','"+rows[i]['password']+"','"+req.sessionID+"');");
-      res.render('pages/home', { welcome_name: username, logged_in: true  });
-      return;
+  account_select_username.all([username] , (err, rows) => {
+    if (err) throw err; 
+    for (var i = 0; i < rows.length; i++) {
+      if (bcrypt.compareSync(password, rows[i]['password']))  {
+        account_insert.run(rows[i]['username'],rows[i]['password'],req.sessionID);
+        res.render('pages/home', { welcome_name: username, logged_in: true  });
+        return;
+      }
     }
-  }
-  res.render('pages/login', { error_msg: "Invalid Login Details" })
+    res.render('pages/login', { error_msg: "Invalid Login Details" })
   });
 }
 
 function create_user(username, password, password2, req, res){ 
   if (password === password2)  {
-    console.log("\nUser created an account with the following credentials\nUsername = " + username);
-    console.log("Password = " + password);
-    console.log("Password2 = " + password2);
     insert_user(username, password, req.sessionID);
     res.render('pages/home', { welcome_name: username, logged_in: true  });
   } else {
@@ -141,7 +141,7 @@ function create_user(username, password, password2, req, res){
 }
 
 function existing_session(view, req, res, args){
-  db.all("select * from Accounts where session='"+req.sessionID+"';" , (err, rows) => {
+  account_select_session.all([req.sessionID] , (err, rows) => {
     if (err) throw err;
     if(rows.length > 0)  {
       res.render(view, Object.assign({}, { welcome_name: rows[0]['username'], logged_in: true}, args));
@@ -152,15 +152,12 @@ function existing_session(view, req, res, args){
 }
 
 function render_forum(view, req, res)  {
-  console.log("rendering forum");
-
-  db.all("select * from Forum;" , (err, rows) => {
+  forum_select.all( (err, rows) => {
     if (err) throw err;
     var message_data_list=[];
     for (var r=0; r < rows.length; r++)  {
       message_data_list.push({username: rows[r]['username'], message: rows[r]['message']});
     }
-    console.log(message_data_list);
     existing_session(view, req, res, { posts : message_data_list.reverse()});
   });
 }
