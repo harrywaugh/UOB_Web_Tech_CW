@@ -77,22 +77,22 @@ let db = new sqlite3.Database('./db/users.db', (err) => {
   db.exec(account_schema);
   db.exec(forum_schema);
   insert_user("hw16471", "pass", "NULL");
-  // insert_post("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis porta eros lacus, nec ultricies elit blandit non. Suspendisse pellentesque mauris sit amet dolor blandit rutrum. Nunc in tempus turpis.");
 });
 
-//Currently vulnerable to sql injection, single quotes!!
 
 /////////////////////////////////
 // Database queries
 /////////////////////////////////
 const account_schema = "CREATE TABLE IF NOT EXISTS Accounts (username TEXT PRIMARY KEY,password TEXT,session TEXT);"
-const forum_schema   = "CREATE TABLE IF NOT EXISTS Forum (post_id INTEGER PRIMARY KEY AUTOINCREMENT,message TEXT,username TEXT, FOREIGN KEY (username) REFERENCES Accounts(username));"
+const forum_schema   = "CREATE TABLE IF NOT EXISTS Forum (post_id INTEGER PRIMARY KEY AUTOINCREMENT,message TEXT,\
+                        username TEXT, FOREIGN KEY (username) REFERENCES Accounts(username));"
 
 const account_select_username = db.prepare("SELECT * FROM Accounts WHERE username=?");
 const account_select_session  = db.prepare("SELECT * FROM Accounts WHERE session=?");
 const account_insert          = db.prepare("REPLACE INTO Accounts (username,password,session) VALUES (?,?,?);");
+const account_logout          = db.prepare("REPLACE INTO Accounts (username,password,session) VALUES (?,?,NULL);");
 const forum_insert_post       = db.prepare("INSERT INTO Forum (post_id,message,username) VALUES (NULL,?,?);");
-const forum_select            = db.prepare("select * from Forum;");
+const forum_select            = db.prepare("SELECT * FROM Forum;");
 
 
 function insert_user(username, password, sessionID){
@@ -106,26 +106,21 @@ function insert_user(username, password, sessionID){
 }
 
 function insert_post(message, req, res){
-  console.log("inserting post");
-  account_select_session.all([req.sessionID] , (err, rows) => {
+  account_select_session.get([req.sessionID], (err, row) => {
     if (err) throw err;
-    if(rows.length > 0)  {
-      forum_insert_post.run([message, rows[0]['username']], () => {
-        render_forum('pages/forum',     req, res);
-      });
-    }
+    forum_insert_post.run([message, row['username']], () => {
+      render_forum('pages/forum', req, res);
+    });
   });
 }
 
 function check_login(username, password, req, res){
-  account_select_username.all([username] , (err, rows) => {
+  account_select_username.each([username] , (err, row) => {
     if (err) throw err; 
-    for (var i = 0; i < rows.length; i++) {
-      if (bcrypt.compareSync(password, rows[i]['password']))  {
-        account_insert.run(rows[i]['username'],rows[i]['password'],req.sessionID);
-        res.render('pages/home', { welcome_name: username, logged_in: true  });
-        return;
-      }
+    if (bcrypt.compareSync(password, row['password']))  {
+      account_insert.run(row['username'],row['password'],req.sessionID);
+      res.render('pages/home', { welcome_name: username, logged_in: true  });
+      return;
     }
     res.render('pages/login', { error_msg: "Invalid Login Details" })
   });
@@ -143,11 +138,10 @@ function create_user(username, password, password2, req, res){
 function existing_session(view, req, res, args){
   account_select_session.all([req.sessionID] , (err, rows) => {
     if (err) throw err;
-    if(rows.length > 0)  {
-      res.render(view, Object.assign({}, { welcome_name: rows[0]['username'], logged_in: true}, args));
-    } else {
+    if(rows.length == 0)
       res.render(view, Object.assign({}, { welcome_name: 'there' }, args));
-    }
+    else
+      res.render(view, Object.assign({}, { welcome_name: rows[0]['username'], logged_in: true}, args));
   });
 }
 
@@ -163,14 +157,9 @@ function render_forum(view, req, res)  {
 }
 
 function logout(req, res)  {
-  db.all("select * from Accounts where session='"+req.sessionID+"';" , (err, rows) => {
+  account_select_session.get([req.sessionID] , (err, row) => {
     if (err) throw err;
-    if(rows.length > 0)  {
-      db.exec("REPLACE INTO Accounts (username,password,session) VALUES ('"+rows[0]['username']+"','"+rows[0]['password']+"','NULL');");
-    }
+    account_logout.run(row['username'],row['password']);
     res.render('pages/home', { welcome_name: 'there'});
-
   });
-}
-
-//Logout function
+} 
