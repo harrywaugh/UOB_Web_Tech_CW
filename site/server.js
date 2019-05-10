@@ -76,9 +76,11 @@ let db = new sqlite3.Database('./db/users.db', (err) => {
   console.log('Connection opened to database.');
   db.exec(account_schema);
   db.exec(forum_schema);
+  db.exec(reply_schema);
   insert_user("hw16471", "pass", "NULL");
+  forum_insert_post.run(["harry's message", "hw16471"]);
+  replies_insert_reply.run([1, "harry's reply", "hw16471"]);
 });
-
 
 /////////////////////////////////
 // Database queries
@@ -86,6 +88,11 @@ let db = new sqlite3.Database('./db/users.db', (err) => {
 const account_schema = "CREATE TABLE IF NOT EXISTS Accounts (username TEXT PRIMARY KEY,password TEXT,session TEXT);"
 const forum_schema   = "CREATE TABLE IF NOT EXISTS Forum (post_id INTEGER PRIMARY KEY AUTOINCREMENT,message TEXT,\
                         username TEXT, FOREIGN KEY (username) REFERENCES Accounts(username));"
+const reply_schema   = "CREATE TABLE IF NOT EXISTS Replies (reply_id INTEGER PRIMARY KEY AUTOINCREMENT,\
+                        post_id INTEGER,message TEXT,username TEXT,\
+                        FOREIGN KEY (post_id) REFERENCES Forum(post_id),\
+                        FOREIGN KEY (username) REFERENCES Forum(username));"
+
 
 const account_select_username = db.prepare("SELECT * FROM Accounts WHERE username=?");
 const account_select_session  = db.prepare("SELECT * FROM Accounts WHERE session=?");
@@ -93,6 +100,8 @@ const account_insert          = db.prepare("REPLACE INTO Accounts (username,pass
 const account_logout          = db.prepare("REPLACE INTO Accounts (username,password,session) VALUES (?,?,NULL);");
 const forum_insert_post       = db.prepare("INSERT INTO Forum (post_id,message,username) VALUES (NULL,?,?);");
 const forum_select            = db.prepare("SELECT * FROM Forum;");
+const replies_insert_reply    = db.prepare("INSERT INTO Replies (reply_id,post_id,message,username) VALUES (NULL,?,?,?);");
+const replies_select          = db.prepare("SELECT * FROM Replies;");
 
 
 function insert_user(username, password, sessionID){
@@ -148,11 +157,19 @@ function existing_session(view, req, res, args){
 function render_forum(view, req, res)  {
   forum_select.all( (err, rows) => {
     if (err) throw err;
-    var message_data_list=[];
+    var forum_list=[];
     for (var r=0; r < rows.length; r++)  {
-      message_data_list.push({username: rows[r]['username'], message: rows[r]['message']});
+      var post = { username: rows[r]['username'], message: rows[r]['message'], replies: [] };
+      forum_list.push(post);
     }
-    existing_session(view, req, res, { posts : message_data_list.reverse()});
+    replies_select.all( (err, rows) => {
+      for (var r=0; r < rows.length; r++)  {
+        var reply = { username: rows[r]['username'], reply: rows[r]['message']};
+        forum_list[rows[r]['post_id']].replies.push(reply);
+      }
+      existing_session(view, req, res, { posts : forum_list.reverse()});
+    });
+
   });
 }
 
