@@ -28,7 +28,25 @@ block main
                     small
                       a Reply
                       |  · 3 hrs
-                each reply in post['replies']
+                article.media
+                  if locals.logged_in
+                    figure.media-left
+                      p.image.is-48x48
+                        img(src='https://bulma.io/images/placeholders/96x96.png')
+                    .media-content
+                      .field
+                        form(method="POST", action='http://localhost:8080/reply_to_post')
+                          input(type="hidden",name="post_id", value=post['post_id'])
+                          .form-group.p.control
+                            textarea.textarea.has-fixed-size.form-control(placeholder='Write a reply..', type="text", name="reply", rows="1")
+                          .form-group.p.control
+                            div.field
+                              br
+                              button.button.form-control(type="submit") Reply
+                  else
+                    p 
+                      strong Please login to reply to this post
+                each reply in post['replies'].reverse()
                   article.media
                     figure.media-left
                       p.image.is-48x48
@@ -37,9 +55,10 @@ block main
                       .content
                         p
                           strong=reply['username']
-                        p=post['message']
+                        p=reply['reply']
                           br
                           small 3 hrs
+            
         else 
           div.box
             p No posts in the forum
@@ -48,16 +67,18 @@ block main
           if locals.logged_in
             article.media
               .media-content
-                form(method="POST", action='http://localhost:8080/create_post')
-                  .form-group
-                    label(for="post") Anything we can do?
-                    textarea.textarea.form-control(placeholder='Go on spill it..', type="text", name="post")
-                  .form-group
-                    div.field
-                      br
-                      button.button.is-info.form-control(type="submit") Create Post 
+                .field
+                  form(method="POST", action='http://localhost:8080/create_post')
+                    .form-group.p.control
+                      label(for="post") Anything we can do?
+                      textarea.textarea.has-fixed-size.form-control(placeholder='Go on spill it..', type="text", name="post", rows="10")
+                    .form-group.p.control
+                      div.field
+                        br
+                        button.button.is-info.form-control(type="submit") Create Post 
           else
-            h2 Please login to create a post.
+            h2
+              strong Please login to create a post.
             br
             a.button.is-button.is-link(href="/login") Login
 

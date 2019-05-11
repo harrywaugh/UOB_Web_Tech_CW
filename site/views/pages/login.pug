@@ -1,7 +1,7 @@
 extends ../layout.pug
 
 block main
-  section.hero.is-warning.is-2.is-bold
+  section.hero.is-warning.is-2.is-bold.is-large
     .hero-body
       .container.has-text-centered
         h1.title Login
@@ -12,8 +12,10 @@ block main
           .form-group
             label(for="username") Username:
             input#username.form-control(type="text", name="username")
+          br
           .form-group
-            label(for="password") Password:
+            label(for="password") Password: 
             input#password.form-control(type="text", name="password")
+          br
           button.btn.btn-primary(type="submit") Submit
         a(href='/new_user') No account? Make one here
