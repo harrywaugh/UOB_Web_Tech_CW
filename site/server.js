@@ -42,6 +42,7 @@ app.get('/login',    function (req, res) { res.render('pages/login');           
 app.get('/forum',    function (req, res) { render_forum('pages/forum',        req, res);     })
 app.get('/tutorial', function (req, res) { existing_session('pages/tutorial', req, res, {}); })
 app.get('/new_user', function (req, res) { res.render('pages/new_user'); })
+app.get('*',         function (req, res) { existing_session('pages/error',    req, res, {}); }) 
 
 
 /////////////////////////////////
@@ -70,6 +71,13 @@ app.post('/reply_to_post', function (req, res) {
   var post_id = req.body.post_id;
   insert_reply(post_id, reply, req, res);
 })
+
+function errorHandler (err, req, res, next) {
+  res.status(500)
+  throw_error(err);
+}
+
+
 /////////////////////////////////
 // Open database connection
 /////////////////////////////////
@@ -120,7 +128,7 @@ function create_user(username, password, password2, req, res){
 
 function insert_user(username, password, sessionID){
   account_select_username.all([username] , (err, rows) => {
-    if (err) throw_err(err);
+    if (err) throw_error(err);
     if(rows.length == 0)
       bcrypt.hash(password, 10, function(err, hash) {
         account_insert.run([username, hash, sessionID]);
@@ -130,7 +138,7 @@ function insert_user(username, password, sessionID){
 
 function insert_post(message, req, res){
   account_select_session.get([req.sessionID], (err, row) => {
-    if (err) throw_err(err);
+    if (err) throw_error(err);
     forum_insert_post.run([message, row['username']], () => {
       render_forum('pages/forum', req, res);
     });
@@ -139,7 +147,7 @@ function insert_post(message, req, res){
 
 function insert_reply(post_id, reply, req, res){
   account_select_session.get([req.sessionID], (err, row) => {
-    if (err) throw_err(err);
+    if (err) throw_error(err);
     replies_insert_reply.run([post_id, reply, row['username']], () => {
       render_forum('pages/forum', req, res);
     });
@@ -148,7 +156,7 @@ function insert_reply(post_id, reply, req, res){
 
 function check_login(username, password, req, res){
   account_select_username.each([username] , (err, row) => {
-    if (err) throw_err(err);
+    if (err) throw_error(err);
     if (bcrypt.compareSync(password, row['password']))  {
       account_insert.run(row['username'],row['password'],req.sessionID);
       res.render('pages/home', { welcome_name: username, logged_in: true  });
@@ -160,7 +168,7 @@ function check_login(username, password, req, res){
 
 function existing_session(view, req, res, args){
   account_select_session.all([req.sessionID] , (err, rows) => {
-    if (err) throw_err(err);
+    if (err) throw_error(err);
     if(rows.length == 0)
       res.render(view, Object.assign({}, { welcome_name: 'there' }, args));
     else
@@ -170,7 +178,7 @@ function existing_session(view, req, res, args){
 
 function render_forum(view, req, res)  {
   forum_select.all( (err, rows) => {
-    if (err) throw_err(err);
+    if (err) throw_error(err);
     var forum_list=[];
     for (var r=0; r < rows.length; r++)  {
       var post = { post_id: rows[r]['post_id'].toString(), username: rows[r]['username'], message: rows[r]['message'], replies: [] };
@@ -189,13 +197,13 @@ function render_forum(view, req, res)  {
 
 function logout(req, res)  {
   account_select_session.get([req.sessionID] , (err, row) => {
-    if (err) throw_error(err);
+    if (err) throw_error(err, req, res);
     account_logout.run(row['username'],row['password']);
     res.render('pages/home', { welcome_name: 'there'});
   });
 } 
 
-function throw_error(err)  {
+function throw_error(err, req, res)  {
   console.log(err);
-  existing_session('pages/tutorial', req, res, {});
+  existing_session('pages/error', req, res, {});
 }
