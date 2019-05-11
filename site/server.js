@@ -9,6 +9,7 @@ const uuid       = require('uuid/v4')
 const bodyParser = require("body-parser");
 const sqlite3    = require('sqlite3').verbose();
 const bcrypt     = require('bcrypt');
+var path         = require('path');
 const app        = express()
 const port       = 8080
 
@@ -25,6 +26,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.set('view engine', 'pug')
 app.set('views', './views')
+app.use(express.static(path.join(__dirname, "public")));
 
 
 /////////////////////////////////
@@ -41,9 +43,8 @@ app.get('/error',    function (req, res) { existing_session('pages/error',    re
 app.get('/login',    function (req, res) { res.render('pages/login');                        })
 app.get('/forum',    function (req, res) { render_forum('pages/forum',        req, res);     })
 app.get('/tutorial', function (req, res) { existing_session('pages/tutorial', req, res, {}); })
-app.get('/new_user', function (req, res) { res.render('pages/new_user'); })
+app.get('/new_user', function (req, res) { res.render('pages/new_user');                     })
 app.get('*',         function (req, res) { existing_session('pages/error',    req, res, {}); }) 
-
 
 /////////////////////////////////
 // Map POST requests
@@ -99,7 +100,7 @@ let db = new sqlite3.Database('./db/users.db', (err) => {
 // Database queries
 /////////////////////////////////
 const db_schema =  "DROP TABLE IF EXISTS Accounts; DROP TABLE IF EXISTS Forum; DROP TABLE IF EXISTS Replies;\
-                    CREATE TABLE IF NOT EXISTS Accounts (username TEXT PRIMARY KEY,password TEXT,session TEXT);\
+                    CREATE TABLE IF NOT EXISTS Accounts (username TEXT PRIMARY KEY,password TEXT,avatar_id INT,session TEXT);\
                     CREATE TABLE IF NOT EXISTS Forum (post_id INTEGER PRIMARY KEY AUTOINCREMENT,message TEXT,\
                     username TEXT, FOREIGN KEY (username) REFERENCES Accounts(username));\
                     CREATE TABLE IF NOT EXISTS Replies (reply_id INTEGER PRIMARY KEY AUTOINCREMENT,\
@@ -110,12 +111,12 @@ const db_schema =  "DROP TABLE IF EXISTS Accounts; DROP TABLE IF EXISTS Forum; D
 
 const account_select_username = db.prepare("SELECT * FROM Accounts WHERE username=?");
 const account_select_session  = db.prepare("SELECT * FROM Accounts WHERE session=?");
-const account_insert          = db.prepare("REPLACE INTO Accounts (username,password,session) VALUES (?,?,?);");
-const account_logout          = db.prepare("REPLACE INTO Accounts (username,password,session) VALUES (?,?,NULL);");
+const account_insert          = db.prepare("REPLACE INTO Accounts (username,password,avatar_id,session) VALUES (?,?,?,?);");
+const account_logout          = db.prepare("REPLACE INTO Accounts (username,password,avatar_id,session) VALUES (?,?,?,NULL);");
 const forum_insert_post       = db.prepare("INSERT INTO Forum (post_id,message,username) VALUES (NULL,?,?);");
-const forum_select            = db.prepare("SELECT * FROM Forum;");
+const forum_select            = db.prepare("SELECT * FROM Forum JOIN Accounts ON Forum.username=Accounts.username;");
 const replies_insert_reply    = db.prepare("INSERT INTO Replies (reply_id,post_id,message,username) VALUES (NULL,?,?,?);");
-const replies_select          = db.prepare("SELECT * FROM Replies;");
+const replies_select          = db.prepare("SELECT * FROM Replies JOIN Accounts ON Replies.username=Accounts.username;");
 
 function create_user(username, password, password2, req, res){ 
   if (password === password2)  {
@@ -131,7 +132,7 @@ function insert_user(username, password, sessionID){
     if (err) throw_error(err);
     if(rows.length == 0)
       bcrypt.hash(password, 10, function(err, hash) {
-        account_insert.run([username, hash, sessionID]);
+        account_insert.run([username, hash,Math.floor(Math.random() * 8),sessionID]);
       });
   });
 }
@@ -158,7 +159,7 @@ function check_login(username, password, req, res){
   account_select_username.each([username] , (err, row) => {
     if (err) throw_error(err);
     if (bcrypt.compareSync(password, row['password']))  {
-      account_insert.run(row['username'],row['password'],req.sessionID);
+      account_insert.run(row['username'],row['password'],Math.floor(Math.random() * 8),req.sessionID);
       res.render('pages/home', { welcome_name: username, logged_in: true  });
       return;
     }
@@ -172,7 +173,7 @@ function existing_session(view, req, res, args){
     if(rows.length == 0)
       res.render(view, Object.assign({}, { welcome_name: 'there' }, args));
     else
-      res.render(view, Object.assign({}, { welcome_name: rows[0]['username'], logged_in: true}, args));
+      res.render(view, Object.assign({}, { welcome_name: rows[0]['username'], avatar:get_avatar_file(rows[0]['avatar_id']), logged_in: true}, args));
   });
 }
 
@@ -181,12 +182,17 @@ function render_forum(view, req, res)  {
     if (err) throw_error(err);
     var forum_list=[];
     for (var r=0; r < rows.length; r++)  {
-      var post = { post_id: rows[r]['post_id'].toString(), username: rows[r]['username'], message: rows[r]['message'], replies: [] };
+      var avatar_file = "media/avatar" + rows[r]['avatar_id'].toString() +".png";
+      var post = { post_id:    rows[r]['post_id'].toString(),
+                   avatar_img: avatar_file,
+                   username:   rows[r]['username'],
+                   message:    rows[r]['message'], replies: [] };
       forum_list.push(post);
     }
     replies_select.all( (err, rows) => {
       for (var r=0; r < rows.length; r++)  {
-        var reply = { username: rows[r]['username'], reply: rows[r]['message']};
+        var avatar_file = get_avatar_file(rows[r]['avatar_id']);
+        var reply = { avatar_img: avatar_file, username: rows[r]['username'], reply: rows[r]['message']};
         forum_list[rows[r]['post_id']-1].replies.push(reply);
       }
       existing_session(view, req, res, { posts : forum_list.reverse()});
@@ -198,7 +204,7 @@ function render_forum(view, req, res)  {
 function logout(req, res)  {
   account_select_session.get([req.sessionID] , (err, row) => {
     if (err) throw_error(err, req, res);
-    account_logout.run(row['username'],row['password']);
+    account_logout.run(row['username'],row['password'],Math.floor(Math.random() * 8));
     res.render('pages/home', { welcome_name: 'there'});
   });
 } 
@@ -206,4 +212,8 @@ function logout(req, res)  {
 function throw_error(err, req, res)  {
   console.log(err);
   existing_session('pages/error', req, res, {});
+}
+
+function get_avatar_file(id)  {
+  return "media/avatar" + id.toString() +".png";
 }

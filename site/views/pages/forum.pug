@@ -18,7 +18,7 @@ block main
             article.media
               figure.media-left
                 p.image.is-64x64
-                  img.is-rounded(src='https://bulma.io/images/placeholders/128x128.png')
+                  img.is-rounded(src=post['avatar_img'])
               .media-content.is-success
                 .content
                   p
@@ -32,7 +32,7 @@ block main
                   if locals.logged_in
                     figure.media-left
                       p.image.is-48x48
-                        img.is-rounded(src='https://bulma.io/images/placeholders/96x96.png')
+                        img.is-rounded(src=avatar)
                     .media-content
                       .field
                         form(method="POST", action='http://localhost:8080/reply_to_post')
@@ -50,7 +50,7 @@ block main
                   article.media
                     figure.media-left
                       p.image.is-48x48
-                        img.is-rounded(src='https://bulma.io/images/placeholders/96x96.png')
+                        img.is-rounded(src=post['avatar_img'])
                     .media-content
                       .content
                         p
