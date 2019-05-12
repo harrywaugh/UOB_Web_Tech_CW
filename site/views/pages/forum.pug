@@ -12,7 +12,7 @@ block main
 
   section.section
     div.columns
-      div.column.is-6.is-offset-1
+      div.column.is-7
         each post in posts
           div.box
             article.media
@@ -50,7 +50,7 @@ block main
                   article.media
                     figure.media-left
                       p.image.is-48x48
-                        img.is-rounded(src=post['avatar_img'])
+                        img.is-rounded(src=reply['avatar_img'])
                     .media-content
                       .content
                         p
@@ -62,16 +62,19 @@ block main
         else 
           div.box
             p No posts in the forum
-      div.column.is-4
+      div.column.is-5
         div.box
           if locals.logged_in
             article.media
+              figure.media-left
+                p.image.is-48x48
+                  img.is-rounded(src=avatar)
               .media-content
                 .field
                   form(method="POST", action='http://localhost:8080/create_post')
                     .form-group.p.control
                       label(for="post") Anything we can do?
-                      textarea.textarea.has-fixed-size.form-control(placeholder='Go on spill it..', type="text", name="post", rows="10")
+                      textarea.textarea.has-fixed-size.form-control(placeholder='Go on spill it..', type="text", name="post", rows="7")
                     .form-group.p.control
                       div.field
                         br
