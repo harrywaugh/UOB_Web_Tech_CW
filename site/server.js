@@ -27,6 +27,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.set('view engine', 'pug')
 app.set('views', './views')
+
+app.use("/jquery", express.static(path.join(__dirname, "../node_modules/jquery/dist")));
+app.use("/media", express.static(path.join(__dirname, "/views/media")));
+app.use("/js", express.static(path.join(__dirname, "/views/js")));
 app.use(express.static(path.join(__dirname, "public")));
 
 
@@ -111,7 +115,6 @@ let db = new sqlite3.Database('./db/users.db', (err) => {
     replies_insert_reply.run([3, "finn's replied to his own message", "finn", now.getTime()]);
     replies_insert_reply.run([3, "Bob's getting in on the action", "finn", now.getTime()]);
   });
-
 });
 
 /////////////////////////////////
