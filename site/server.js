@@ -12,6 +12,8 @@ const bcrypt     = require('bcrypt');
 var path         = require('path');
 const app        = express()
 const port       = 8080
+const avatar_n   = 27
+
 
 /////////////////////////////////
 // Node Configuration
@@ -90,8 +92,24 @@ let db = new sqlite3.Database('./db/users.db', (err) => {
   console.log('Connection opened to database.');
   db.exec(db_schema, () => {
     insert_user("hw16471", "pass", "NULL");
+    insert_user("harry", "pass", "NULL");
+    insert_user("fh16413", "pass", "NULL");
+    insert_user("bob", "pass", "NULL");
+    insert_user("ian", "pass", "NULL");
+    insert_user("man", "pass", "NULL");
+    insert_user("woman", "pass", "NULL");
+    forum_insert_post.run(["hw16471's message", "hw16471"]);
+    forum_insert_post.run(["harry's message", "harry"]);
+    forum_insert_post.run(["finn's message", "finn"]);
     forum_insert_post.run(["harry's message", "hw16471"]);
-    replies_insert_reply.run([1, "harry's reply", "hw16471"]);
+    forum_insert_post.run(["fh16413's message", "fh16413"]);
+    forum_insert_post.run(["bob's message", "bob"]);
+    forum_insert_post.run(["man's message", "man"]);
+    forum_insert_post.run(["woman's message", "woman"]);
+    replies_insert_reply.run([2, "harry's reply", "harry"]);
+    replies_insert_reply.run([2, "he's replied again", "harry"]);
+    replies_insert_reply.run([3, "finn's replied to his own message", "finn"]);
+    replies_insert_reply.run([3, "Bob's getting in on the action", "finn"]);
   });
 
 });
@@ -132,7 +150,7 @@ function insert_user(username, password, sessionID){
     if (err) throw_error(err);
     if(rows.length == 0)
       bcrypt.hash(password, 10, function(err, hash) {
-        account_insert.run([username, hash,Math.floor(Math.random() * 8),sessionID]);
+        account_insert.run([username, hash,Math.floor(Math.random() * avatar_n),sessionID]);
       });
   });
 }
@@ -159,7 +177,7 @@ function check_login(username, password, req, res){
   account_select_username.each([username] , (err, row) => {
     if (err) throw_error(err);
     if (bcrypt.compareSync(password, row['password']))  {
-      account_insert.run(row['username'],row['password'],Math.floor(Math.random() * 8),req.sessionID);
+      account_insert.run(row['username'],row['password'],Math.floor(Math.random() * avatar_n),req.sessionID);
       res.render('pages/home', { welcome_name: username, logged_in: true  });
       return;
     }
@@ -204,7 +222,7 @@ function render_forum(view, req, res)  {
 function logout(req, res)  {
   account_select_session.get([req.sessionID] , (err, row) => {
     if (err) throw_error(err, req, res);
-    account_logout.run(row['username'],row['password'],Math.floor(Math.random() * 8));
+    account_logout.run(row['username'],row['password'],Math.floor(Math.random() * avatar_n));
     res.render('pages/home', { welcome_name: 'there'});
   });
 } 
