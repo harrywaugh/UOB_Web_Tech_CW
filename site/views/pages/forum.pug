@@ -26,8 +26,7 @@ block main
                   p=post['message']
                     br
                     small
-                      a Reply
-                      |  · 3 hrs
+                      p.has-text-primary=post['time']
                 article.media
                   if locals.logged_in
                     figure.media-left
@@ -57,7 +56,8 @@ block main
                           strong=reply['username']
                         p=reply['reply']
                           br
-                          small 3 hrs
+                          small
+                            p.has-text-primary=reply['time']
             
         else 
           div.box
@@ -67,7 +67,7 @@ block main
           if locals.logged_in
             article.media
               figure.media-left
-                p.image.is-48x48
+                p.image.is-64x64
                   img.is-rounded(src=avatar)
               .media-content
                 .field
