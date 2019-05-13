@@ -2,16 +2,23 @@
 
 $(document).ready(login_open);
 function login_open() { $('#login_button').click(show_login); }
-function show_login()  { $('#popup_login').show(); }
+function show_login()  { 
+  $('#popup_login').css('z-index', 10000);
+  $('#popup_login').css('opacity', 1);
+}
 
 $(document).ready(login_close);
 function login_close() { $('#close_login').click(hide_login); }
-function hide_login()  { $('#popup_login').hide(); }
+function hide_login()  { 
+  $('#popup_login').css('opacity', 0);
+  $('#popup_login').css('z-index', -10000);
+
+}
 
 function throw_error(e)  { alert("Post Request Error!"); console.log("ERROR: ", e); }
 function logged_in(valid_login)  {
 	if(valid_login)  {
-        $('#popup_login').slideUp();
+        $('#popup_login').fadeOut();
         location.reload(true);
         return;
 	}

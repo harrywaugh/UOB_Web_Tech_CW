@@ -4005,7 +4005,7 @@ a.dropdown-item {
   right: 0;
   top: 0;
   align-items: center;
-  display: none;
+  opacity: 0;
   justify-content: center;
   overflow: hidden;
   position: fixed;
