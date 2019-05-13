@@ -58,9 +58,6 @@ app.get('*',         function (req, res) { existing_session('pages/error',    re
 app.post('/login', function (req, res) {
   var username = req.body.username;
   var password = req.body.password;
-  console.log("Post Request Received");
-  console.log(username);
-  console.log(password);
   check_login(username, password, req, res);
 })
 app.post('/logout', function (req, res) {
@@ -244,7 +241,8 @@ function logout(req, res)  {
   account_select_session.get([req.sessionID] , (err, row) => {
     if (err) throw_error(err, req, res);
     account_logout.run(row['username'],row['password'],Math.floor(Math.random() * avatar_n));
-    res.render('pages/home', { welcome_name: 'there'});
+    res.send(false);
+    // res.render('pages/home', { welcome_name: 'there'});
   });
 } 
 

@@ -15,8 +15,7 @@ nav.navbar.is-dark.has-shadow
         a.navbar-item(href='/tutorial') Tutorial
         a.navbar-item(href='/forum') Forum
         if locals.logged_in
-          form(method="POST", action='http://localhost:8080/logout')
-            button.navbar-item.has-text-danger.logout-button(type="submit") Logout
+          a#logout_button.navbar-item.has-text-danger Logout
         else
           a#login_button.navbar-item.has-text-success Login
 section.hero.is-warning.is-2.is-bold#popup_login
@@ -24,8 +23,7 @@ section.hero.is-warning.is-2.is-bold#popup_login
   .container.has-text-centered
     h1.title Login
 
-    if locals.error_msg
-      p= error_msg
+    p#incorrect-login-msg.has-text-centered.has-text-danger Incorrect Login Details
     form#login_form(method="POST", action='http://localhost:8080/login')
       .form-group
         label(for="username") Username:

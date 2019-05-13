@@ -1,3 +1,3 @@
-#popup_login{
+#popup_login, #incorrect-login-msg{
 	display: none;
 }
