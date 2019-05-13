@@ -29,8 +29,9 @@ app.set('view engine', 'pug')
 app.set('views', './views')
 
 app.use("/jquery", express.static(path.join(__dirname, "../node_modules/jquery/dist")));
-app.use("/media", express.static(path.join(__dirname, "/views/media")));
-app.use("/js", express.static(path.join(__dirname, "/views/js")));
+app.use("/media",  express.static(path.join(__dirname, "/views/media")));
+app.use("/js",     express.static(path.join(__dirname, "/views/js")));
+app.use("/css",    express.static(path.join(__dirname, "/views/css")));
 app.use(express.static(path.join(__dirname, "public")));
 
 
@@ -57,6 +58,9 @@ app.get('*',         function (req, res) { existing_session('pages/error',    re
 app.post('/login', function (req, res) {
   var username = req.body.username;
   var password = req.body.password;
+  console.log("Post Request Received");
+  console.log(username);
+  console.log(password);
   check_login(username, password, req, res);
 })
 app.post('/logout', function (req, res) {
@@ -77,12 +81,6 @@ app.post('/reply_to_post', function (req, res) {
   var post_id = req.body.post_id;
   insert_reply(post_id, reply, req, res);
 })
-
-function errorHandler (err, req, res, next) {
-  res.status(500)
-  throw_error(err);
-}
-
 
 /////////////////////////////////
 // Open database connection
@@ -188,10 +186,14 @@ function check_login(username, password, req, res){
     if (err) throw_error(err);
     if (bcrypt.compareSync(password, row['password']))  {
       account_insert.run(row['username'],row['password'],Math.floor(Math.random() * avatar_n),req.sessionID);
-      res.render('pages/home', { welcome_name: username, logged_in: true  });
+      res.send(true);
+
+      // res.render('pages/home', { welcome_name: username, logged_in: true  });
       return;
     }
-    res.render('pages/login', { error_msg: "Invalid Login Details" })
+    res.send(false);
+
+    // res.render('pages/login', { error_msg: "Invalid Login Details" })
   });
 }
 

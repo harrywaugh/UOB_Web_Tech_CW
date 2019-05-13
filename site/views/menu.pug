@@ -18,4 +18,22 @@ nav.navbar.is-dark.has-shadow
           form(method="POST", action='http://localhost:8080/logout')
             button.navbar-item.has-text-danger.logout-button(type="submit") Logout
         else
-          a.navbar-item.has-text-success(href='/login') Login
+          a#login_button.navbar-item.has-text-success Login
+section.hero.is-warning.is-2.is-bold#popup_login
+  .hero-body
+  .container.has-text-centered
+    h1.title Login
+
+    if locals.error_msg
+      p= error_msg
+    form#login_form(method="POST", action='http://localhost:8080/login')
+      .form-group
+        label(for="username") Username:
+        input#username.form-control(type="text", name="username")
+      br
+      .form-group
+        label(for="password") Password: 
+        input#password.form-control(type="text", name="password")
+      br
+      button.btn.btn-primary(type="submit") Submit
+    a(href='/new_user') No account? Make one here
