@@ -1,8 +1,13 @@
 "use strict";
 
-$(document).ready(login_click);
-function login_click() { $('#login_button').click(show_login); }
-function show_login()  { $('#popup_login').slideDown(); }
+$(document).ready(login_open);
+function login_open() { $('#login_button').click(show_login); }
+function show_login()  { $('#popup_login').show(); }
+
+$(document).ready(login_close);
+function login_close() { $('#close_login').click(hide_login); }
+function hide_login()  { $('#popup_login').hide(); }
+
 function throw_error(e)  { alert("Post Request Error!"); console.log("ERROR: ", e); }
 function logged_in(valid_login)  {
 	if(valid_login)  {

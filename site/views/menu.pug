@@ -18,20 +18,23 @@ nav.navbar.is-dark.has-shadow
           a#logout_button.navbar-item.has-text-danger Logout
         else
           a#login_button.navbar-item.has-text-success Login
-section.hero.is-warning.is-2.is-bold#popup_login
-  .hero-body
-  .container.has-text-centered
-    h1.title Login
+.modal#popup_login
+  .modal-background
+  .modal-card#login_box
+    header.modal-card-head
+      p.modal-card-title Login
+      button#close_login.delete(aria-label='close')
+    section.modal-card-body
+      p#incorrect-login-msg.has-text-centered.has-text-danger Incorrect Login Details
+      form#login_form(method="POST", action='http://localhost:8080/login')
+        .form-group
+          label(for="username") Username:
+          input#username.form-control(type="text", name="username")
+        br
+        .form-group
+          label(for="password") Password: 
+          input#password.form-control(type="text", name="password")
+        br
+        button.btn.btn-primary(type="submit") Submit
+      a(href='/new_user') No account? Make one here
 
-    p#incorrect-login-msg.has-text-centered.has-text-danger Incorrect Login Details
-    form#login_form(method="POST", action='http://localhost:8080/login')
-      .form-group
-        label(for="username") Username:
-        input#username.form-control(type="text", name="username")
-      br
-      .form-group
-        label(for="password") Password: 
-        input#password.form-control(type="text", name="password")
-      br
-      button.btn.btn-primary(type="submit") Submit
-    a(href='/new_user') No account? Make one here
