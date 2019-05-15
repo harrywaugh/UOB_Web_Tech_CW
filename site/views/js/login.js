@@ -1,14 +1,13 @@
 "use strict";
 
 $(document).ready(login_open);
-function login_open() { $('#login_button').click(show_login); }
+function login_open() { $('.login_button').click(show_login); }
 function show_login()  { 
     $('#popup_login').toggleClass('no_transition');
     $('#popup_login').css('z-index', 10000);
     $('#popup_login')[0].offsetHeight;
     $('#popup_login').toggleClass('no_transition');
-    $('#popup_login').css('opacity', 1);
-    
+    $('#popup_login').css('opacity', 1); 
 }
 
 $(document).ready(login_close);
