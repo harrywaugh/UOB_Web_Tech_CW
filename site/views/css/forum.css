@@ -3,3 +3,21 @@
   border-color: #23D160;
   cursor      : pointer;
 }
+
+/*#postbox{
+  -webkit-transition: all 1s ease-in-out;
+    -moz-transition: all 1s ease-in-out;
+    -ms-transition: all 1s ease-in-out;
+    -o-transition: all 1s ease-in-out;
+    transition: all 1s ease-in-out;
+    /*z-index: -10000;*/
+/*}*/
+
+
+.abs_center {
+  margin: auto;
+  position: fixed;
+  top: 20%; left: 15%; bottom: auto; right: 15%;
+  z-index: 10000;
+}
+
