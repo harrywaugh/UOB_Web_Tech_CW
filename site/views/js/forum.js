@@ -1,6 +1,5 @@
 
 $(document).ready(hover_over_postbox);
-
 function hover_over_postbox() {
     $('.postbox').hover(
        function(){ $(this).addClass('color_border'); },
@@ -8,9 +7,7 @@ function hover_over_postbox() {
     );
 }
 
-
 $(document).ready(click_on_postbox);
-
 function click_on_postbox() {
 	$('.postbox').click(
 		function(){ 
@@ -21,7 +18,6 @@ function click_on_postbox() {
 
 
 $(document).ready(click_off_postbox);
-
 function click_off_postbox() {
 	$('.background_shader').click(
 		function(){ 

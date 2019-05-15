@@ -38,11 +38,11 @@ $( document ).ready(function() {
 
         // Prevent the form from submitting via the browser.
         event.preventDefault();
-        ajaxPost();
+        post_login_details();
     });
     
     
-  function ajaxPost(){
+  function post_login_details(){
       
     // Get form data
     var form_data = {
