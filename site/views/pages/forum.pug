@@ -14,12 +14,12 @@ block main
     div.columns
       div.column.is-7
         each post in posts
-          div.box
+          div.box.postbox
             article.media
               figure.media-left
                 p.image.is-64x64
                   img.is-rounded(src=post['avatar_img'])
-              .media-content.is-success
+              .media-content
                 .content
                   p
                     strong=post['username']
