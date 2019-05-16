@@ -16,7 +16,6 @@ function click_on_postbox() {
 	});
 }
 
-
 $(document).ready(click_off_postbox);
 function click_off_postbox() {
 	$('.background_shader').click(
@@ -24,4 +23,36 @@ function click_off_postbox() {
 	   	$('.postbox').removeClass('abs_center'); 
 	   	$(this).css('z-index', -10000); 
 	});
+}
+
+function throw_error(e)  { alert("Post Request Error!"); console.log("ERROR: ", e); }
+
+function render_replies()  { console.log("Rendering replies: "); }
+
+
+
+    
+    
+function get_post_replies(){
+  
+	// Get form data
+	var form_data = {
+	    username : $("#username").val(),
+	    password : $("#password").val()
+	}
+
+	// Make post request
+	$.ajax({
+	    type        : "POST",
+	    contentType : "application/json",
+	    url         : "/login",
+	    data        : JSON.stringify(form_data),
+	    dataType    : 'json',
+	    success     : render_replies,
+	    error       : throw_error
+	});
+	  
+	$("#username").val("");
+	$("#password").val("");
+
 }

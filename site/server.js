@@ -78,6 +78,11 @@ app.post('/reply_to_post', function (req, res) {
   var post_id = req.body.post_id;
   insert_reply(post_id, reply, req, res);
 })
+app.post('/get_replies', function (req, res) {
+  var post_id = req.body.post_id;
+  get_replies(post_id, req, res);
+})
+
 
 /////////////////////////////////
 // Open database connection
@@ -133,6 +138,7 @@ const forum_insert_post       = db.prepare("INSERT INTO Forum (post_id,message,u
 const forum_select            = db.prepare("SELECT * FROM Forum JOIN Accounts ON Forum.username=Accounts.username;");
 const replies_insert_reply    = db.prepare("INSERT INTO Replies (reply_id,post_id,message,username,time) VALUES (NULL,?,?,?,?);");
 const replies_select          = db.prepare("SELECT * FROM Replies JOIN Accounts ON Replies.username=Accounts.username;");
+const replies_select_post     = db.prepare("SELECT * FROM Replies JOIN Accounts ON Replies.username=Accounts.username WHERE post_id=?;");
 
 
 
@@ -205,6 +211,39 @@ function existing_session(view, req, res, args){
 }
 
 function render_forum(view, req, res)  {
+  forum_select.all( (err, rows) => {
+    if (err) throw_error(err);
+    var forum_list=[];
+    var now = new Date();
+    
+    for (var r=0; r < rows.length; r++)  {
+      var avatar_file = "media/avatar" + rows[r]['avatar_id'].toString() +".png";
+      var time_string = get_time_string(now.getTime() - rows[r]['time']);
+      var post = { post_id:    rows[r]['post_id'].toString(),
+                   avatar_img: avatar_file,
+                   username:   rows[r]['username'],
+                   time:       time_string,
+                   message:    rows[r]['message'], replies: [] };
+      forum_list.push(post);
+    }
+    replies_select.all( (err, rows) => {
+      for (var r=0; r < rows.length; r++)  {
+        var avatar_file = get_avatar_file(rows[r]['avatar_id']);
+        var time_string = get_time_string(now.getTime() - rows[r]['time']);
+        var reply = { avatar_img: avatar_file,
+                      username:   rows[r]['username'],
+                      time:       time_string,
+                      reply:      rows[r]['message'] };
+                      
+        forum_list[rows[r]['post_id']-1].replies.push(reply);
+      }
+      existing_session(view, req, res, { posts : forum_list.reverse()});
+    });
+
+  });
+}
+
+function get_replies(view, req, res)  {
   forum_select.all( (err, rows) => {
     if (err) throw_error(err);
     var forum_list=[];
