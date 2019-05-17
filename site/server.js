@@ -263,7 +263,7 @@ function get_replies(post_id, req, res)  {
                     
       replies_list.push(reply);
     }
-    var htmlRepliesString = pug.renderFile('views/pages/replies.pug', {replies: replies_list});
+    var htmlRepliesString = pug.renderFile('views/pages/replies.pug', {replies: replies_list,  logged_in : true});
     res.send(JSON.stringify(htmlRepliesString));
     return;
 

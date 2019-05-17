@@ -10,6 +10,7 @@ function hover_over_postbox() {
 $(document).ready(click_on_postbox);
 function click_on_postbox() {
 	$('.postbox').click( function(){ 
+		$(this).find('.reply-textbox').show();
 	   	$(this).addClass('abs_center'); 
 	   	$('.background_shader').css('z-index', 1000); 
 	   	get_post_replies($(this).find(".input_post_id").val());
@@ -19,8 +20,9 @@ function click_on_postbox() {
 $(document).ready(click_off_postbox);
 function click_off_postbox() {
 	$('.background_shader').click( function(){ 
+		$('.reply-textbox').hide();
 		var replies_container = $('.abs_center').find('.replies-container');
-		while (replies_container.children().length > 2)  {
+		while (replies_container.children().length > 1)  {
 			replies_container.children().last().remove();
 		}
 
@@ -34,6 +36,7 @@ function render_replies(html_string)  {
 	if( html_string == false )  return false;
 
 	var replies_container = $('.abs_center').find('.replies-container');
+	console.log(replies_container);
 	replies_container.append(html_string);
 }
 

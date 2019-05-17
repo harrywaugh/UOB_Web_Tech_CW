@@ -4,6 +4,10 @@
   cursor      : pointer;
 }
 
+.reply-textbox {
+  display: none;
+}
+
 /*#postbox{
   -webkit-transition: all 1s ease-in-out;
     -moz-transition: all 1s ease-in-out;
