@@ -1,3 +1,4 @@
+$(document).ready( function () { $('.reply-textbox').hide(); });
 
 $(document).ready(hover_over_postbox);
 function hover_over_postbox() {
@@ -20,9 +21,9 @@ function click_on_postbox() {
 $(document).ready(click_off_postbox);
 function click_off_postbox() {
 	$('.background_shader').click( function(){ 
-		$('.reply-textbox').hide();
+		$('.abs_center').find('.reply-textbox').hide();
 		var replies_container = $('.abs_center').find('.replies-container');
-		while (replies_container.children().length > 1)  {
+		while (replies_container.children().length > 2)  {
 			replies_container.children().last().remove();
 		}
 
