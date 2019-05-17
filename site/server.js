@@ -175,13 +175,20 @@ function insert_post(message, req, res){
   });
 }
 
-function insert_reply(post_id, reply, req, res){
+function insert_reply(post_id, reply_msg, req, res){
   account_select_session.get([req.sessionID], (err, row) => {
     if (err) throw_error(err);
     var now = new Date();
-    replies_insert_reply.run([post_id, reply, row['username'], now.getTime()], () => {
-      render_forum('pages/forum', req, res);
-    });
+    replies_insert_reply.run([post_id, reply_msg, row['username'], now.getTime()]);
+    var avatar_file = get_avatar_file(row['avatar_id']);
+    var time_string = get_time_string(0);
+    var reply = { avatar_img: avatar_file,
+                    username:   row['username'],
+                        time:   time_string,
+                       reply:   reply_msg };
+    var htmlRepliesString = pug.renderFile('views/pages/replies.pug', {replies: [reply]});
+    res.send(JSON.stringify(htmlRepliesString));
+    return;
   });
 }
 
@@ -223,22 +230,10 @@ function render_forum(view, req, res)  {
                    avatar_img: avatar_file,
                    username:   rows[r]['username'],
                    time:       time_string,
-                   message:    rows[r]['message'], replies: [] };
+                   message:    rows[r]['message']};
       forum_list.push(post);
     }
-    replies_select.all( (err, rows) => {
-      for (var r=0; r < rows.length; r++)  {
-        var avatar_file = get_avatar_file(rows[r]['avatar_id']);
-        var time_string = get_time_string(now.getTime() - rows[r]['time']);
-        var reply = { avatar_img: avatar_file,
-                      username:   rows[r]['username'],
-                      time:       time_string,
-                      reply:      rows[r]['message'] };
-                      
-        forum_list[rows[r]['post_id']-1].replies.push(reply);
-      }
-      existing_session(view, req, res, { posts : forum_list.reverse()});
-    });
+    existing_session(view, req, res, { posts : forum_list.reverse()});
 
   });
 }
@@ -266,7 +261,6 @@ function get_replies(post_id, req, res)  {
     var htmlRepliesString = pug.renderFile('views/pages/replies.pug', {replies: replies_list});
     res.send(JSON.stringify(htmlRepliesString));
     return;
-
   });
 }
 

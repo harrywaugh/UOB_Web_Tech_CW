@@ -35,7 +35,7 @@ block main
                         img.is-rounded(src=avatar)
                     .media-content
                       .field
-                        form(method="POST", action='http://localhost:8080/reply_to_post')
+                        form.reply_forum(method="POST", action='http://localhost:8080/reply_to_post')
                           input.input_post_id(type="hidden", name="post_id", value=post['post_id'])
                           .form-group.p.control
                             textarea.textarea.has-fixed-size.form-control(placeholder='Write a reply..', type="text", name="reply", rows="1")
