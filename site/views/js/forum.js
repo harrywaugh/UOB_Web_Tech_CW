@@ -17,6 +17,7 @@ function hover_over_clicked_postbox() {
 $(document).ready(click_on_postbox);
 function click_on_postbox() {
 	$('.postbox').click( function(){ 
+
 		$(this).addClass('color_border');
 		$(this).find('.reply-textbox').show();
 
@@ -24,6 +25,7 @@ function click_on_postbox() {
 	   	$(this).addClass('abs_center'); 
 	   	$('.background_shader').css('z-index', 1000); 
 	   	get_post_replies($(this).find(".input_post_id").val());
+	   	$("html, body").animate({ scrollTop: 0 }, "slow");
 	});
 }
 
