@@ -196,7 +196,7 @@ function check_login(username, password, req, res){
   account_select_username.each([username] , (err, row) => {
     if (err) throw_error(err);
     if (bcrypt.compareSync(password, row['password']))  {
-      account_insert.run(row['username'],row['password'], Math.floor(Math.random() * avatar_n),req.sessionID);
+      account_insert.run(row['username'],row['password'], row['avatar_id'],req.sessionID);
       res.send(true);
       // res.render('pages/home', { welcome_name: username, logged_in: true  });
       return;
@@ -267,7 +267,7 @@ function get_replies(post_id, req, res)  {
 function logout(req, res)  {
   account_select_session.get([req.sessionID] , (err, row) => {
     if (err) throw_error(err, req, res);
-    account_logout.run(row['username'],row['password'],Math.floor(Math.random() * avatar_n));
+    account_logout.run(row['username'],row['password'],row['avatar_id']);
     res.send(false);
     // res.render('pages/home', { welcome_name: 'there'});
   });
