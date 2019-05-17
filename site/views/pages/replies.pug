@@ -1,0 +1,13 @@
+each reply in replies.reverse()
+  article.media
+    figure.media-left
+      p.image.is-48x48
+        img.is-rounded(src=reply['avatar_img'])
+    .media-content
+      .content
+        p
+          strong=reply['username']
+        p=reply['reply']
+          br
+          small
+            p.has-text-primary=reply['time']

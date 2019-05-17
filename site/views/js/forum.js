@@ -9,50 +9,51 @@ function hover_over_postbox() {
 
 $(document).ready(click_on_postbox);
 function click_on_postbox() {
-	$('.postbox').click(
-		function(){ 
+	$('.postbox').click( function(){ 
 	   	$(this).addClass('abs_center'); 
 	   	$('.background_shader').css('z-index', 1000); 
+	   	get_post_replies($(this).find(".input_post_id").val());
 	});
 }
 
 $(document).ready(click_off_postbox);
 function click_off_postbox() {
-	$('.background_shader').click(
-		function(){ 
+	$('.background_shader').click( function(){ 
+		var replies_container = $('.abs_center').find('.replies-container');
+		while (replies_container.children().length > 2)  {
+			replies_container.children().last().remove();
+		}
+
 	   	$('.postbox').removeClass('abs_center'); 
 	   	$(this).css('z-index', -10000); 
 	});
 }
 
 function throw_error(e)  { alert("Post Request Error!"); console.log("ERROR: ", e); }
+function render_replies(html_string)  { 
+	if( html_string == false )  return false;
 
-function render_replies()  { console.log("Rendering replies: "); }
-
-
+	var replies_container = $('.abs_center').find('.replies-container');
+	replies_container.append(html_string);
+}
 
     
-    
-function get_post_replies(){
-  
+function get_post_replies(post_id_val){
+  	
 	// Get form data
-	var form_data = {
-	    username : $("#username").val(),
-	    password : $("#password").val()
+	var post_data = {
+	    post_id : post_id_val
 	}
 
 	// Make post request
 	$.ajax({
 	    type        : "POST",
 	    contentType : "application/json",
-	    url         : "/login",
-	    data        : JSON.stringify(form_data),
+	    url         : "/get_replies",
+	    data        : JSON.stringify(post_data),
 	    dataType    : 'json',
 	    success     : render_replies,
 	    error       : throw_error
 	});
-	  
-	$("#username").val("");
-	$("#password").val("");
 
 }

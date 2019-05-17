@@ -9,7 +9,8 @@ const uuid       = require('uuid/v4')
 const bodyParser = require("body-parser");
 const sqlite3    = require('sqlite3').verbose();
 const bcrypt     = require('bcrypt');
-var path         = require('path');
+const pug = require('pug');
+const path       = require('path');
 const app        = express()
 const port       = 8080
 const avatar_n   = 27
@@ -188,14 +189,13 @@ function check_login(username, password, req, res){
   account_select_username.each([username] , (err, row) => {
     if (err) throw_error(err);
     if (bcrypt.compareSync(password, row['password']))  {
-      account_insert.run(row['username'],row['password'],Math.floor(Math.random() * avatar_n),req.sessionID);
+      account_insert.run(row['username'],row['password'], Math.floor(Math.random() * avatar_n),req.sessionID);
       res.send(true);
-
       // res.render('pages/home', { welcome_name: username, logged_in: true  });
       return;
     }
     res.send(false);
-
+    return;
     // res.render('pages/login', { error_msg: "Invalid Login Details" })
   });
 }
@@ -243,35 +243,29 @@ function render_forum(view, req, res)  {
   });
 }
 
-function get_replies(view, req, res)  {
-  forum_select.all( (err, rows) => {
+function get_replies(post_id, req, res)  {
+  replies_select_post.all([post_id], (err, rows) => {
     if (err) throw_error(err);
-    var forum_list=[];
+    var replies_list=[];
     var now = new Date();
+    if (rows.length == 0)  {
+      res.send(false);
+      return;
+    }
     
     for (var r=0; r < rows.length; r++)  {
-      var avatar_file = "media/avatar" + rows[r]['avatar_id'].toString() +".png";
+      var avatar_file = get_avatar_file(rows[r]['avatar_id']);
       var time_string = get_time_string(now.getTime() - rows[r]['time']);
-      var post = { post_id:    rows[r]['post_id'].toString(),
-                   avatar_img: avatar_file,
-                   username:   rows[r]['username'],
-                   time:       time_string,
-                   message:    rows[r]['message'], replies: [] };
-      forum_list.push(post);
+      var reply = { avatar_img: avatar_file,
+                    username:   rows[r]['username'],
+                    time:       time_string,
+                    reply:      rows[r]['message'] };
+                    
+      replies_list.push(reply);
     }
-    replies_select.all( (err, rows) => {
-      for (var r=0; r < rows.length; r++)  {
-        var avatar_file = get_avatar_file(rows[r]['avatar_id']);
-        var time_string = get_time_string(now.getTime() - rows[r]['time']);
-        var reply = { avatar_img: avatar_file,
-                      username:   rows[r]['username'],
-                      time:       time_string,
-                      reply:      rows[r]['message'] };
-                      
-        forum_list[rows[r]['post_id']-1].replies.push(reply);
-      }
-      existing_session(view, req, res, { posts : forum_list.reverse()});
-    });
+    var htmlRepliesString = pug.renderFile('views/pages/replies.pug', {replies: replies_list});
+    res.send(JSON.stringify(htmlRepliesString));
+    return;
 
   });
 }
@@ -305,3 +299,4 @@ function get_time_string(milliseconds)  {
   if (days < 365)    return Math.floor(days).toString() + " days ago";
   return "A while ago";
 }
+

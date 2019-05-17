@@ -2,7 +2,7 @@
 
 $(document).ready(login_open);
 function login_open() { $('.login_button').click(show_login); }
-function show_login()  { 
+function show_login()  {
     $('#popup_login').toggleClass('no_transition');
     $('#popup_login').css('z-index', 10000);
     $('#popup_login')[0].offsetHeight;
@@ -40,10 +40,10 @@ $( document ).ready(function() {
         event.preventDefault();
         post_login_details();
     });
-    
-    
-  function post_login_details(){
-      
+})
+
+function post_login_details(){
+  
     // Get form data
     var form_data = {
         username : $("#username").val(),
@@ -64,5 +64,4 @@ $( document ).ready(function() {
     $("#username").val("");
     $("#password").val("");
 
-    }
-})
+}

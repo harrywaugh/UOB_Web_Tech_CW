@@ -19,10 +19,11 @@ block main
               figure.media-left
                 p.image.is-64x64
                   img.is-rounded(src=post['avatar_img'])
-              .media-content
+              .media-content.replies-container
                 .content
                   p
                     strong=post['username']
+                    input.input_post_id(type="hidden", name="hidden_post_id", value=post['post_id'])
                   p=post['message']
                     br
                     small
@@ -35,7 +36,7 @@ block main
                     .media-content
                       .field
                         form(method="POST", action='http://localhost:8080/reply_to_post')
-                          input(type="hidden",name="post_id", value=post['post_id'])
+                          input.input_post_id(type="hidden", name="post_id", value=post['post_id'])
                           .form-group.p.control
                             textarea.textarea.has-fixed-size.form-control(placeholder='Write a reply..', type="text", name="reply", rows="1")
                           .form-group.p.control
@@ -44,21 +45,7 @@ block main
                               button.button.form-control(type="submit") Reply
                   else
                     p 
-                      strong Please login to reply to this post
-                each reply in post['replies'].reverse()
-                  article.media
-                    figure.media-left
-                      p.image.is-48x48
-                        img.is-rounded(src=reply['avatar_img'])
-                    .media-content
-                      .content
-                        p
-                          strong=reply['username']
-                        p=reply['reply']
-                          br
-                          small
-                            p.has-text-primary=reply['time']
-            
+                      strong Please login to reply to this post            
         else 
           div.box
             p No posts in the forum
