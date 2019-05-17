@@ -2,5 +2,5 @@
 
  - Fix footer to bottom of pages
  - Create tutorial page to show off js, svg, and png
- - 
+ - Mobile optimisations
 
