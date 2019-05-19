@@ -1,5 +1,5 @@
 $(document).ready( function () { $('.reply-textbox').hide(); });
-
+var selected = false;
 $(document).ready(hover_over_postbox);
 function hover_over_postbox() {
     $('.postbox').hover(
@@ -16,23 +16,28 @@ function hover_over_clicked_postbox() {
 
 $(document).ready(click_on_postbox);
 function click_on_postbox() {
-	$('.postbox').click( function(){ 
+	$('.postbox').click( function(){
+        if (!selected)  {
+            selected = true;
 
-		$(this).addClass('color_border');
-		$(this).find('.reply-textbox').show();
+    		$(this).addClass('color_border');
+    		$(this).find('.reply-textbox').show();
 
-		hover_over_clicked_postbox();
-	   	$(this).addClass('abs_center'); 
-	   	$('.background_shader').css('z-index', 1000); 
-	   	get_post_replies($(this).find(".input_post_id").val());
-	   	$("html, body").animate({ scrollTop: 0 }, "slow");
+    		hover_over_clicked_postbox();
+    	   	$(this).addClass('abs_center');
+    	   	$('.background_shader').css('z-index', 1000);
+    	   	get_post_replies($(this).find(".input_post_id").val());
+    	   	$("html, body").animate({ scrollTop: 0 }, "slow");
+        }
+
 	});
 }
 
 $(document).ready(click_off_postbox);
 function click_off_postbox() {
-	$('.background_shader').click( function(){ 
-		$('.abs_center').find('.reply-textbox').hide();
+	$('.background_shader').click( function(){
+        $('.abs_center').find('.reply-textbox').hide();
+		selected = false;
 		var replies_container = $('.abs_center').find('.replies-container');
 		while (replies_container.children().length > 2)  {
 			replies_container.children().last().remove();
@@ -40,12 +45,12 @@ function click_off_postbox() {
 	   	$('.postbox').removeClass('abs_center');
 	   	$('.postbox').removeClass('color_border');
 	   	hover_over_postbox();
-	   	$(this).css('z-index', -10000); 
+	   	$(this).css('z-index', -10000);
 	});
 }
 
 function throw_error(e)  { alert("Post Request Error!"); console.log("ERROR: ", e); }
-function render_replies(html_string)  { 
+function render_replies(html_string)  {
 	if( html_string == false )  return false;
 
 	var replies_container = $('.abs_center').find('.replies-container');
@@ -53,9 +58,9 @@ function render_replies(html_string)  {
 	replies_container.append(html_string);
 }
 
-   
+
 function get_post_replies(post_id_val){
-  	
+
 	// Get form data
 	var post_data = {
 	    post_id : post_id_val
@@ -102,7 +107,7 @@ function post_reply(form) {
         success     : render_replies,
         error       : throw_error
     });
-      
+
     $(form).find('.textarea').val("");
 
 }
