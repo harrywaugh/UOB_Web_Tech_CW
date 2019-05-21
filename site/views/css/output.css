@@ -35,14 +35,20 @@ html, body {
 
 .appstore-img {
     display: inline-block;
-    margin: 20px;
-    height: 80px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 75px;
     text-align:center;
 }
 
 .small-appstore-img {
     display: inline-block;
-    margin: 20px;
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-top: 8px;
+    margin-bottom: 8px;
     height: 50px;
     text-align:center;
 }
@@ -4609,21 +4615,21 @@ html.has-navbar-fixed-bottom {
     transition-duration: 86ms;
     transition-property: background-color, opacity, transform;
     transition-timing-function: ease-out;
-    width: 30px; }
+    width: 21px; }
     .navbar-burger span:nth-child(1) {
-      top: calc(50% - 7px); }
+      top: calc(50% - 8px); }
     .navbar-burger span:nth-child(2) {
       top: calc(50% - 1px); }
     .navbar-burger span:nth-child(3) {
-      top: calc(50% + 5px); }
+      top: calc(50% + 6px); }
   .navbar-burger:hover {
     background-color: rgba(0, 0, 0, 0.05); }
   .navbar-burger.is-active span:nth-child(1) {
-    transform: translateY(10px) rotate(45deg); }
+    transform: translateY(7px) rotate(45deg); }
   .navbar-burger.is-active span:nth-child(2) {
     opacity: 0; }
   .navbar-burger.is-active span:nth-child(3) {
-    transform: translateY(-10px) rotate(-45deg); }
+    transform: translateY(-7px) rotate(-45deg); }
 
 .navbar-menu {
   display: none; }
