@@ -3,21 +3,20 @@ nav.navbar.is-dark.has-shadow
   .container
     .navbar-brand
       a.navbar-item(href='/')
-        p#brand-title
-          strong &ensp;&nbsp;KHAOS KITCHEN
+        img(src="../media/logo.svg")
       span.navbar-burger.burger(data-target='navbarMenu')
         span
         span
         span
     .navbar-menu
       .navbar-end
-        a.navbar-item(href='/') Home
-        a.navbar-item(href='/tutorial') Tutorial
-        a.navbar-item(href='/forum') Forum
+        a.navbar-item.is-size-4(href='/') Home
+        a.navbar-item.is-size-4(href='/tutorial') Tutorial
+        a.navbar-item.is-size-4(href='/forum') Forum
         if locals.logged_in
-          a#logout_button.navbar-item.has-text-danger Logout
+          a#logout_button.navbar-item.has-text-danger.is-size-4 Logout
         else
-          a.login_button.navbar-item.has-text-success Login
+          a.login_button.navbar-item.has-text-success.is-size-4 Login
 .modal#popup_login
   .modal-background
   .modal-card#login_box
@@ -32,9 +31,8 @@ nav.navbar.is-dark.has-shadow
           input#username.form-control(type="text", name="username")
         br
         .form-group
-          label(for="password") Password: 
+          label(for="password") Password:
           input#password.form-control(type="text", name="password")
         br
         button.btn.btn-primary(type="submit") Submit
       a(href='/new_user') No account? Make one here
-

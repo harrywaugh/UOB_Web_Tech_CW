@@ -1,11 +1,12 @@
 extends ../layout.pug
 
 block main
-  section.hero.is-danger.is-2.is-bold
+  section.hero.is-info.is-2.is-bold
     .hero-body
       .container.has-text-centered
-        h1.title="Hey " + welcome_name + "! Welcome to Khaos Kitchen!"
-        h2.subtitle Khaos Kitchen is a fast-paced mobile party game where 2-8 players become the staff of a crazy kitchen! Players must work together and run, shout, shake and more to keep their restaurant open for as long as possible!
-        include ../media/store-apple.svg
-        include ../media/store-google.svg
-
+        img(src="../media/logo.svg")
+        h1.title.is-size-1="Hey " + welcome_name + "! Welcome to Khaos Kitchen!"
+        br
+        br
+        img(src="../media/store-apple.svg", width="30%")
+        img(src="../media/store-google.svg", width="30%")

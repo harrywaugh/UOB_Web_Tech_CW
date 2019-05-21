@@ -2,13 +2,17 @@ extends ../layout.pug
 
 
 block main
-  section.hero.is-success.is-2.is-small
+  section.hero.is-success.is-2.is-bold
     .hero-body
       .container.has-text-centered
-        h1.title="Hey "+ welcome_name +" ! Welcome to the Khaos Kitchen forum!"
-        h2.subtitle 
-          | Here you can keep up to date with the latest Khaos Kitchen news, discuss Khaos Kitchen with the community and post 
+        br
+        h1.title.is-size-2="Hey " + welcome_name + "! Welcome to the Khaos Kitchen forum!"
+        h2.subtitle.is-size-4
+          | Here you can keep up to date with the latest Khaos Kitchen news, discuss Khaos Kitchen with the community and post
           | your own ideas and issues!
+        br
+        img(src="../media/store-apple.svg", width="20%")
+        img(src="../media/store-google.svg", width="20%")
 
   section.section
     div.columns
@@ -44,9 +48,9 @@ block main
                               br
                               button.button.form-control(type="submit") Reply
                   else
-                    p 
-                      strong Please login to reply to this post            
-        else 
+                    p
+                      strong Please login to reply to this post
+        else
           div.box
             p No posts in the forum
       div.column.is-5
@@ -65,11 +69,9 @@ block main
                     .form-group.p.control
                       div.field
                         br
-                        button.button.is-info.form-control(type="submit") Create Post 
+                        button.button.is-info.form-control(type="submit") Create Post
           else
             h2
               strong Please login to create a post.
             br
             a.button.is-button.is-link.login_button Login
-
-
