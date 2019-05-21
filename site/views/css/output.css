@@ -36,9 +36,17 @@ html, body {
 .appstore-img {
     display: inline-block;
     margin: 20px;
-    height: 120px;
+    height: 80px;
     text-align:center;
 }
+
+.small-appstore-img {
+    display: inline-block;
+    margin: 20px;
+    height: 50px;
+    text-align:center;
+}
+
 
 .tooltip {
   position: relative;
@@ -102,7 +110,7 @@ html, body {
   opacity: 1; }
 
 .hero-body .container {
-  max-width: 1000px; }
+  max-width: 900px; }
 
 .hero-body .subtitle {
   padding-top: 2rem;
@@ -4587,9 +4595,9 @@ html.has-navbar-fixed-bottom {
 .navbar-burger {
   cursor: pointer;
   display: block;
-  height: 6rem;
+  height: 4rem;
   position: relative;
-  width: 5rem;
+  width: 3rem;
   margin-left: auto; }
   .navbar-burger span {
     background-color: currentColor;
@@ -4603,11 +4611,11 @@ html.has-navbar-fixed-bottom {
     transition-timing-function: ease-out;
     width: 30px; }
     .navbar-burger span:nth-child(1) {
-      top: calc(50% - 11px); }
+      top: calc(50% - 7px); }
     .navbar-burger span:nth-child(2) {
       top: calc(50% - 1px); }
     .navbar-burger span:nth-child(3) {
-      top: calc(50% + 9px); }
+      top: calc(50% + 5px); }
   .navbar-burger:hover {
     background-color: rgba(0, 0, 0, 0.05); }
   .navbar-burger.is-active span:nth-child(1) {
@@ -4638,7 +4646,7 @@ a.navbar-link.is-active {
   flex-grow: 0;
   flex-shrink: 0; }
   .navbar-item img {
-    max-height: 5rem; }
+    max-height: 3rem; }
   .navbar-item.has-dropdown {
     padding: 0; }
   .navbar-item.is-expanded {

@@ -6,12 +6,14 @@ block main
     .hero-body
       .container.has-text-centered
         br
-        h1.title.is-size-2="Hey " + welcome_name + "! Welcome to the Khaos Kitchen forum!"
-        h2.subtitle.is-size-3
+        h1.title.is-size-3="Hey " + welcome_name + "! Welcome to the Khaos Kitchen forum!"
+        h2.subtitle.is-size-4
           | Here you can keep up to date with the latest Khaos Kitchen news, discuss Khaos Kitchen with the community and post
           | your own ideas and issues!
-        img.appstore-img(src="../media/store-apple.svg", width="30%")
-        img.appstore-img(src="../media/store-google.svg", width="30%")
+        a(href='https://itunes.apple.com/WebObjects/MZStore.woa/wa/')
+          img.small-appstore-img(src="../media/store-apple.svg")
+        a(href='https://play.google.com/store')
+          img.small-appstore-img(src="../media/store-google.svg")
 
   section.section
     div.columns
