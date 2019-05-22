@@ -118,6 +118,11 @@ html, body {
 .hero-body .container {
   max-width: 900px; }
 
+.hero-body .small-container {
+  margin: 50px;
+  max-width: 600px; }
+
+
 .hero-body .subtitle {
   padding-top: 2rem;
   line-height: 1.5; }
