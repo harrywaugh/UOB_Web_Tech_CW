@@ -20,35 +20,42 @@ block main
           iframe(src="https://www.youtube.com/embed/XIMLoLxmTDw", frameborder="0", allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture", width="448", height="252", allowfullscreen)
   section.hero.is-info.is-2.is-bold
     .hero-body
-      .tile.is-ancestor
-        .tile.is-parent
-          .tile.is-child.box.is-red
-            p.is-fredoka.is-text-yellow.is-size-3 COMMUNICATE
-            p.is-text-yellow.is-size-4 Shout instructions instructions to your fellow chefs and listen out for tasks that you can complete!
-        .tile.is-parent
-          .tile.is-child.box.is-red
-            p.is-fredoka.is-text-yellow.is-size-3 RUN
-            p.is-text-yellow.is-size-4 Run around the physical kitchen and tap your device on NFC beacons!
-        .tile.is-parent
-          .tile.is-child.box.is-red
-            p.is-fredoka.is-text-yellow.is-size-3 SHAKE
-            p.is-text-yellow.is-size-4 Shake your device to season dishes and put out fires!
-      .tile.is-ancestor
-        .tile.is-parent
-          .tile.is-child.box.is-red
-            p.is-fredoka.is-text-yellow.is-size-3 FIND
-            p.is-text-yellow.is-size-4 Use the camera to find objects scattered around the physical kitchen!
-        .tile.is-parent
-          .tile.is-child.box.is-red
-            p.is-fredoka.is-text-yellow.is-size-3 SHOUT
-            p.is-text-yellow.is-size-4 Shout as loud as you can into your device's microphone!
-        .tile.is-parent
-          .tile.is-child.box.is-red
-            p.is-fredoka.is-text-yellow.is-size-3 WORK TOGETHER
-            p.is-text-yellow.is-size-4 Complete group activities as a team! Teamwork is vital!
-      .container.has-text-centered
-        br
-        a.title.is-fredoka(href="/tutorial") Click here to find out how to play >>
+      .container
+        p.is-size-3.has-text-centered
+          | Khaos Kitchen is a fast-paced mobile party game where 2-8 players become the chefs of a crazy kitchen!
+          | Players must work together to complete a wide range of tasks before the timer runs out to keep their
+          | customers happy and keep their restaurant open for as long as possible!
+        .box.is-red.screenshot
+          img(src="../media/screenshot.png")
+        .tile.is-ancestor
+          .tile.is-parent
+            .tile.is-child.box.is-red
+              p.is-fredoka.is-text-yellow.is-size-3 COMMUNICATE
+              p.is-text-yellow.is-size-4 Shout instructions to your fellow chefs and listen out for tasks that you can complete!
+          .tile.is-parent
+            .tile.is-child.box.is-red
+              p.is-fredoka.is-text-yellow.is-size-3 RUN
+              p.is-text-yellow.is-size-4 Run around the physical kitchen and tap your device on NFC beacons to grab ingredients and serve the food!
+          .tile.is-parent
+            .tile.is-child.box.is-red
+              p.is-fredoka.is-text-yellow.is-size-3 FIND
+              p.is-text-yellow.is-size-4 Use the camera to find hidden objects scattered around the physical kitchen!
+        .tile.is-ancestor
+          .tile.is-parent
+            .tile.is-child.box.is-red
+              p.is-fredoka.is-text-yellow.is-size-3 SHAKE
+              p.is-text-yellow.is-size-4 Shake your device to season the food and put out fires!
+          .tile.is-parent
+            .tile.is-child.box.is-red
+              p.is-fredoka.is-text-yellow.is-size-3 SHOUT
+              p.is-text-yellow.is-size-4 Shout as loud as you can into your device's microphone to wake up the waiters!
+          .tile.is-parent
+            .tile.is-child.box.is-red
+              p.is-fredoka.is-text-yellow.is-size-3 WORK TOGETHER
+              p.is-text-yellow.is-size-4 Complete group activities as a team! Great teamwork is essential!
+        .container.has-text-centered
+          br
+          a.title.is-fredoka(href="/tutorial") Click here to find out how to play >>
   section.hero.is-light.is-2.is-bold
     .hero-body
       .columns.is-centered.is-vcentered

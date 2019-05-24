@@ -53,6 +53,10 @@ html, body {
     text-align:center;
 }
 
+.screenshot {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
 
 .tooltip {
   position: relative;
@@ -116,15 +120,14 @@ html, body {
   opacity: 1; }
 
 .hero-body .container {
-  max-width: 900px; }
+  max-width: 1200px; }
 
 .hero-body .small-container {
   margin: 50px;
   max-width: 600px; }
 
-.hero-body .large-container {
-  margin: 50px;
-  max-width: 1200px; }
+.hero-body .mid-container {
+  max-width: 900px; }
 
 
 .hero-body .subtitle {
