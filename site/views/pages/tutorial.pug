@@ -18,7 +18,23 @@ block main
           img.small-appstore-img(src="../media/store-apple.svg")
         a(href='https://play.google.com/store')
           img.small-appstore-img(src="../media/store-google.svg")
-  section.hero.header-image
-    .hero-body
-      .container.has-text-centered
-        br(style="line-height:16")
+  section.header-image
+    .slideshow-container
+      .mySlides.fade.has-text-centered
+        .numbertext 1 / 3
+        img(src="../media/logo.svg", width="50%")
+        .text Tutorial Page 1
+      .mySlides.fade.has-text-centered
+        .numbertext 2 / 3
+        img(src="../media/logo.svg", width="50%")
+        .text Tutorial Page 2
+      .mySlides.fade.has-text-centered
+        .numbertext 3 / 3
+        img(src="../media/logo.svg", width="50%")
+        .text Tutorial Page 3
+      a.prev(onclick="plusSlides(-1)") &#10094;
+      a.next(onclick="plusSlides(1)") &#10095;
+    div(style="text-align:center")
+      span.dot(onclick="currentSlide(1)")
+      span.dot(onclick="currentSlide(2)")
+      span.dot(onclick="currentSlide(3)")

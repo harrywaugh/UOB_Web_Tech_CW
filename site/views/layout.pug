@@ -1,7 +1,7 @@
 doctype html
 html( lang='en-gb' )
     include head.pug
-    body
+    body(onload="currentSlide(1)")
       .background_shader
       include menu.pug
       block main
