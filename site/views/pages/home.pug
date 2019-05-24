@@ -5,7 +5,7 @@ block main
     .hero-body
       .container.has-text-centered
         img(src="../media/logo.svg", width="50%")
-        h1.title.is-size-1.is-fredoka.has-text-light="Hey " + welcome_name + "! Welcome to Khaos Kitchen!"
+        h1.title.is-size-1.is-fredoka.has-text-light.has-text-border="Hey " + welcome_name + "! Welcome to Khaos Kitchen!"
         a(href='https://itunes.apple.com/WebObjects/MZStore.woa/wa/')
           img.appstore-img(src="../media/store-apple.svg")
         a(href='https://play.google.com/store')
@@ -21,7 +21,7 @@ block main
   section.hero.is-2.header-image
     .hero-body
       .container
-        p.is-size-3.has-text-centered.has-text-light.is-fredoka
+        p.is-size-3.has-text-centered.has-text-light.is-fredoka.has-text-border
           | Khaos Kitchen is a fast-paced mobile party game where 2-8 players become the chefs of a crazy kitchen!
           | Players must work together to complete a wide range of tasks before the timer runs out to keep their
           | customers happy and keep their restaurant open for as long as possible!
@@ -30,32 +30,32 @@ block main
         .tile.is-ancestor
           .tile.is-parent
             .tile.is-child.box.is-red
-              p.is-fredoka.is-text-yellow.is-size-3 COMMUNICATE
+              p.is-fredoka.is-text-yellow.is-size-3.has-text-shadow COMMUNICATE
               p.is-text-yellow.is-size-4 Shout instructions to your fellow chefs and listen out for tasks that you can complete!
           .tile.is-parent
             .tile.is-child.box.is-red
-              p.is-fredoka.is-text-yellow.is-size-3 RUN
+              p.is-fredoka.is-text-yellow.is-size-3.has-text-shadow RUN
               p.is-text-yellow.is-size-4 Run around the physical kitchen and tap your device on NFC beacons to grab ingredients and serve the food!
           .tile.is-parent
             .tile.is-child.box.is-red
-              p.is-fredoka.is-text-yellow.is-size-3 FIND
+              p.is-fredoka.is-text-yellow.is-size-3.has-text-shadow FIND
               p.is-text-yellow.is-size-4 Use the camera to find hidden objects scattered around the physical kitchen!
         .tile.is-ancestor
           .tile.is-parent
             .tile.is-child.box.is-red
-              p.is-fredoka.is-text-yellow.is-size-3 SHAKE
+              p.is-fredoka.is-text-yellow.is-size-3.has-text-shadow SHAKE
               p.is-text-yellow.is-size-4 Shake your device to season the food and put out fires!
           .tile.is-parent
             .tile.is-child.box.is-red
-              p.is-fredoka.is-text-yellow.is-size-3 SHOUT
+              p.is-fredoka.is-text-yellow.is-size-3.has-text-shadow SHOUT
               p.is-text-yellow.is-size-4 Shout as loud as you can into your device's microphone to wake up the waiters!
           .tile.is-parent
             .tile.is-child.box.is-red
-              p.is-fredoka.is-text-yellow.is-size-3 WORK TOGETHER
+              p.is-fredoka.is-text-yellow.is-size-3.has-text-shadow WORK TOGETHER
               p.is-text-yellow.is-size-4 Complete group activities as a team! Great teamwork is essential!
         .container.has-text-centered
           br
-          a.title.has-text-light.is-fredoka(href="/tutorial") Click here to find out how to play >>
+          a.title.has-text-light.is-fredoka.has-text-border(href="/tutorial") Click here to find out how to play >>
   section.hero.is-light.is-2.is-bold
     .hero-body
       .columns.is-centered.is-vcentered
