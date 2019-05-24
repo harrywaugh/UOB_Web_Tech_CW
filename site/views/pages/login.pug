@@ -4,17 +4,17 @@ block main
   section.hero.is-warning.is-2.is-bold.is-large
     .hero-body
       .container.has-text-centered
-        h1.title Login
+        p.is-fredoka Login
 
         if locals.error_msg
           p= error_msg
         form(method="POST", action='http://localhost:8080/login')
           .form-group
-            label(for="username") Username:
+            label(for="username")="Username: "
             input#username.form-control(type="text", name="username")
           br
           .form-group
-            label(for="password") Password:
+            label(for="password")="Password: "
             input#password.form-control(type="text", name="password")
           br
           button.btn.btn-primary(type="submit") Submit

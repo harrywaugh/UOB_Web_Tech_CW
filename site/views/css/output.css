@@ -1104,7 +1104,7 @@ a.has-text-danger:hover, a.has-text-danger:focus {
     margin-bottom: 1.5rem; }
 
 .is-red {
-  background-color: #ff3840; }
+  background-image: linear-gradient(141deg, #ff0020 0%, #ff3020 71%, #ff6020 100%); }
 
 .is-text-yellow {
   color: #ffff00; }
@@ -6598,7 +6598,7 @@ label.panel-block {
         .hero.is-warning.is-bold .navbar-menu {
           background-image: linear-gradient(141deg, #ffaf24 0%, #ffdd57 71%, #fffa70 100%); } }
   .hero.is-danger {
-    background-color: #ff3860;
+    background-color: #ff2020;
     color: #fff; }
     .hero.is-danger a:not(.button):not(.dropdown-item):not(.tag),
     .hero.is-danger strong {
@@ -6637,7 +6637,7 @@ label.panel-block {
       border-color: #fff;
       color: #ff3860; }
     .hero.is-danger.is-bold {
-      background-image: linear-gradient(141deg, #ff0561 0%, #ff3860 71%, #ff5257 100%); }
+      background-image: linear-gradient(141deg, #ff0020 0%, #ff5030 71%, #ff9030 100%); }
       @media screen and (max-width: 768px) {
         .hero.is-danger.is-bold .navbar-menu {
           background-image: linear-gradient(141deg, #ff0561 0%, #ff3860 71%, #ff5257 100%); } }

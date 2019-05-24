@@ -4,15 +4,21 @@ extends ../layout.pug
 block main
   section.hero.is-danger.is-2.is-bold
     .hero-body
-      .container.has-text-centered
+      .container.big-container.has-text-centered
         br
-        h1.title.is-size-3.is-fredoka="Hey " + welcome_name + "! Here's how to play Khaos Kitchen!"
-        h2.subtitle.is-size-4 Khaos Kitchen is a fast-paced mobile party game where 2-8 players become the staff of a crazy kitchen! Players must work together and run, shout, shake and more to keep their restaurant open for as long as possible!
+        p.is-size-2.is-fredoka.has-text-shadow.is-text-yellow="Hey " + welcome_name + "! Here's how to play Khaos Kitchen!"
+        br
+      .container.has-text-centered
+        p.is-size-4.is-text-yellow
+          | Khaos Kitchen is a fast-paced mobile party game where 2 to 8 players become the chefs of a crazy kitchen!
+          | Players must work together to complete a wide range of tasks before the timer runs out to keep their
+          | customers happy and keep their restaurant open for as long as possible!
+        br
         a(href='https://itunes.apple.com/WebObjects/MZStore.woa/wa/')
           img.small-appstore-img(src="../media/store-apple.svg")
         a(href='https://play.google.com/store')
           img.small-appstore-img(src="../media/store-google.svg")
-  section.hero
+  section.hero.header-image
     .hero-body
       .container.has-text-centered
         br(style="line-height:16")
