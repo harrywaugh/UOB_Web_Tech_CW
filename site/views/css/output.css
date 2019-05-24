@@ -58,6 +58,14 @@ html, body {
   margin-bottom: 50px;
 }
 
+.header-image {
+  background-image: url("../media/background.png");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: #999; }
+
 .tooltip {
   position: relative;
   display: inline-block;
@@ -120,14 +128,15 @@ html, body {
   opacity: 1; }
 
 .hero-body .container {
-  max-width: 1200px; }
+  max-width: 900px; }
 
 .hero-body .small-container {
-  margin: 50px;
+  margin-top: 50px;
+  margin-bottom: 50px;
   max-width: 600px; }
 
-.hero-body .mid-container {
-  max-width: 900px; }
+.hero-body .big-container {
+  max-width: 1200px; }
 
 
 .hero-body .subtitle {
@@ -755,7 +764,8 @@ a.has-text-black:hover, a.has-text-black:focus {
   color: black !important; }
 
 .has-text-light {
-  color: whitesmoke !important; }
+  color: whitesmoke !important;
+  text-shadow: 2px 2px #000000; }
 
 a.has-text-light:hover, a.has-text-light:focus {
   color: #dbdbdb !important; }

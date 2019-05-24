@@ -1,11 +1,11 @@
 extends ../layout.pug
 
 block main
-  section.hero.is-info.is-2.is-bold
+  section.hero.is-2.header-image
     .hero-body
       .container.has-text-centered
         img(src="../media/logo.svg", width="50%")
-        h1.title.is-size-1.is-fredoka="Hey " + welcome_name + "! Welcome to Khaos Kitchen!"
+        h1.title.is-size-1.is-fredoka.has-text-light="Hey " + welcome_name + "! Welcome to Khaos Kitchen!"
         a(href='https://itunes.apple.com/WebObjects/MZStore.woa/wa/')
           img.appstore-img(src="../media/store-apple.svg")
         a(href='https://play.google.com/store')
@@ -18,15 +18,15 @@ block main
         .column.has-text-centered.small-container
           span.heading.is-size-4 TRAILER COMING SOON...
           iframe(src="https://www.youtube.com/embed/XIMLoLxmTDw", frameborder="0", allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture", width="448", height="252", allowfullscreen)
-  section.hero.is-info.is-2.is-bold
+  section.hero.is-2.header-image
     .hero-body
       .container
-        p.is-size-3.has-text-centered
+        p.is-size-3.has-text-centered.has-text-light.is-fredoka
           | Khaos Kitchen is a fast-paced mobile party game where 2-8 players become the chefs of a crazy kitchen!
           | Players must work together to complete a wide range of tasks before the timer runs out to keep their
           | customers happy and keep their restaurant open for as long as possible!
-        .box.is-red.screenshot
-          img(src="../media/screenshot.png")
+        img.screenshot(src="../media/screenshot.png")
+      .container.big-container
         .tile.is-ancestor
           .tile.is-parent
             .tile.is-child.box.is-red
@@ -55,7 +55,7 @@ block main
               p.is-text-yellow.is-size-4 Complete group activities as a team! Great teamwork is essential!
         .container.has-text-centered
           br
-          a.title.is-fredoka(href="/tutorial") Click here to find out how to play >>
+          a.title.has-text-light.is-fredoka(href="/tutorial") Click here to find out how to play >>
   section.hero.is-light.is-2.is-bold
     .hero-body
       .columns.is-centered.is-vcentered
