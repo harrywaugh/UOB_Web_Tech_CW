@@ -5,7 +5,7 @@ block main
     .hero-body
       .container.has-text-centered
         img(src="../media/logo.svg", width="50%")
-        h1.title.is-size-1="Hey " + welcome_name + "! Welcome to Khaos Kitchen!"
+        h1.title.is-size-1.is-fredoka="Hey " + welcome_name + "! Welcome to Khaos Kitchen!"
         a(href='https://itunes.apple.com/WebObjects/MZStore.woa/wa/')
           img.appstore-img(src="../media/store-apple.svg")
         a(href='https://play.google.com/store')
@@ -17,15 +17,46 @@ block main
           span.heading.has-text-centered.is-size-2 The ultimate multiplayer mobile gaming experience
         .column.has-text-centered.small-container
           span.heading.is-size-4 TRAILER COMING SOON...
-          iframe(src="https://www.youtube.com/embed/XIMLoLxmTDw?controls=0", frameborder="10", allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture", width="560", height="315", allowfullscreen)
+          iframe(src="https://www.youtube.com/embed/XIMLoLxmTDw", frameborder="0", allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture", width="448", height="252", allowfullscreen)
+  section.hero.is-info.is-2.is-bold
+    .hero-body
+      .tile.is-ancestor
+        .tile.is-parent
+          .tile.is-child.box.is-red
+            p.is-fredoka.is-text-yellow.is-size-3 COMMUNICATE
+            p.is-text-yellow.is-size-4 Shout instructions instructions to your fellow chefs and listen out for tasks that you can complete!
+        .tile.is-parent
+          .tile.is-child.box.is-red
+            p.is-fredoka.is-text-yellow.is-size-3 RUN
+            p.is-text-yellow.is-size-4 Run around the physical kitchen and tap your device on NFC beacons!
+        .tile.is-parent
+          .tile.is-child.box.is-red
+            p.is-fredoka.is-text-yellow.is-size-3 SHAKE
+            p.is-text-yellow.is-size-4 Shake your device to season dishes and put out fires!
+      .tile.is-ancestor
+        .tile.is-parent
+          .tile.is-child.box.is-red
+            p.is-fredoka.is-text-yellow.is-size-3 FIND
+            p.is-text-yellow.is-size-4 Use the camera to find objects scattered around the physical kitchen!
+        .tile.is-parent
+          .tile.is-child.box.is-red
+            p.is-fredoka.is-text-yellow.is-size-3 SHOUT
+            p.is-text-yellow.is-size-4 Shout as loud as you can into your device's microphone!
+        .tile.is-parent
+          .tile.is-child.box.is-red
+            p.is-fredoka.is-text-yellow.is-size-3 WORK TOGETHER
+            p.is-text-yellow.is-size-4 Complete group activities as a team! Teamwork is vital!
+      .container.has-text-centered
+        br
+        a.title.is-fredoka(href="/tutorial") Click here to find out how to play >>
   section.hero.is-light.is-2.is-bold
     .hero-body
-      .columns.is-mobile.is-centered.is-vcentered
+      .columns.is-centered.is-vcentered
         .column.small-container
           p.h1.has-text-centered.is-size-3 &quotPretty much the perfect game!&quot
           br
-          p.title.h2.has-text-centered.is-size-4 Random Child 1, Testing Day
+          p.title.h2.has-text-centered.is-size-4.is-fredoka Random Child 1, Testing Day
         .column.has-text-centered.small-container
           p.h1.has-text-centered.is-size-3 &quotThe only game without any bugs!&quot
           br
-          p.title.h2.has-text-centered.is-size-4 Random Child 2, Testing Day
+          p.title.h2.has-text-centered.is-size-4.is-fredoka Random Child 2, Testing Day

@@ -10,13 +10,13 @@ nav.navbar.is-dark.has-shadow
         span
     .navbar-menu
       .navbar-end
-        a.navbar-item.is-size-5(href='/') Home
-        a.navbar-item.is-size-5(href='/tutorial') Tutorial
-        a.navbar-item.is-size-5(href='/forum') Forum
+        a.navbar-item.is-size-5.is-fredoka(href='/') Home
+        a.navbar-item.is-size-5.is-fredoka(href='/tutorial') Tutorial
+        a.navbar-item.is-size-5.is-fredoka(href='/forum') Forum
         if locals.logged_in
-          a#logout_button.navbar-item.has-text-danger.is-size-5 Logout
+          a#logout_button.navbar-item.has-text-danger.is-size-5.is-fredoka Logout
         else
-          a.login_button.navbar-item.has-text-success.is-size-5 Login
+          a.login_button.navbar-item.has-text-success.is-size-5.is-fredoka Login
 .modal#popup_login
   .modal-background
   .modal-card#login_box
