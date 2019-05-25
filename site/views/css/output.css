@@ -55,7 +55,7 @@ html, body {
 
 .tutorial {
   margin-top: 40px;
-  height: 900px;
+  height: 750px;
 }
 
 .img-has-shadow {
@@ -7790,7 +7790,7 @@ img {vertical-align: middle;}
 
 /* Slideshow container */
 .slideshow-container {
-  max-width: 1100px;
+  max-width: 1000px;
   position: relative;
   margin: auto;
 }
