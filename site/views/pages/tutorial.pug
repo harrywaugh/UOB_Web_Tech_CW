@@ -21,17 +21,21 @@ block main
   section.header-image
     .slideshow-container.has-text-border.is-fredoka
       .mySlides.fade.has-text-centered
-        .numbertext.is-size-4 1 / 3
-        img.tutorial.img-has-shadow(src="../media/tutorial1.png", width="50%")
+        .numbertext.is-size-4 1 / 4
+        img.tutorial(src="../media/tutorial1.svg")
       .mySlides.fade.has-text-centered
-        .numbertext.is-size-4 2 / 3
-        img.tutorial.img-has-shadow(src="../media/tutorial2.png", width="50%")
+        .numbertext.is-size-4 2 / 4
+        img.tutorial(src="../media/tutorial2.svg")
       .mySlides.fade.has-text-centered
-        .numbertext.is-size-4 3 / 3
-        img.tutorial.img-has-shadow(src="../media/tutorial3.png", width="50%")
+        .numbertext.is-size-4 3 / 4
+        img.tutorial(src="../media/tutorial3.svg")
+      .mySlides.fade.has-text-centered
+        .numbertext.is-size-4 4 / 4
+        img.tutorial(src="../media/tutorial4.svg")
       a.prev(onclick="plusSlides(-1)") &#10094;
       a.next(onclick="plusSlides(1)") &#10095;
     div(style="text-align:center")
       span.dot(onclick="currentSlide(1)")
       span.dot(onclick="currentSlide(2)")
       span.dot(onclick="currentSlide(3)")
+      span.dot(onclick="currentSlide(4)")
