@@ -18,8 +18,8 @@ const avatar_n   = 27
 /////////////////////////////////
 // Node Configuration
 /////////////////////////////////
-app.use(session({ genid: (req) => {return uuid() }, 
-  secret: 'shhhh', 
+app.use(session({ genid: (req) => {return uuid() },
+  secret: 'shhhh',
   resave: false,
   saveUninitialized: true,
   expires: new Date(Date.now() + (30 * 60 * 1000)) //Check this! Sessions should expire after 30 minutes
@@ -51,7 +51,7 @@ app.get('/login',    function (req, res) { res.render('pages/login');           
 app.get('/forum',    function (req, res) { render_forum('pages/forum',        req, res);     })
 app.get('/tutorial', function (req, res) { existing_session('pages/tutorial', req, res, {}); })
 app.get('/new_user', function (req, res) { res.render('pages/new_user');                     })
-app.get('*',         function (req, res) { existing_session('pages/error',    req, res, {}); }) 
+app.get('*',         function (req, res) { existing_session('pages/error',    req, res, {}); })
 
 /////////////////////////////////
 // Map POST requests
@@ -71,8 +71,9 @@ app.post('/new_user', function (req, res) {
   create_user(username, password, password2, req, res);
 })
 app.post('/create_post', function (req, res) {
-  var post = req.body.post;
-  insert_post(post, req, res);
+  var post_title = req.body.post_title_box;
+  var post_msg = req.body.post_msg_box;
+  insert_post(post_title, post_msg, req, res);
 })
 app.post('/reply_to_post', function (req, res) {
   var reply = req.body.reply;
@@ -103,14 +104,14 @@ let db = new sqlite3.Database('./db/users.db', (err) => {
     insert_user("man", "pass", "NULL");
     insert_user("woman", "pass", "NULL");
     var now = new Date();
-    forum_insert_post.run(["hw16471's message", "hw16471", now.getTime() - 49*60*60*1000]);
-    forum_insert_post.run(["harry's message", "harry", now.getTime() - 5*60*60*1000]);
-    forum_insert_post.run(["finn's message", "finn", now.getTime() - 20*60*1000]);
-    forum_insert_post.run(["harry's message", "hw16471", now.getTime() - 8*60*1000]);
-    forum_insert_post.run(["fh16413's message", "fh16413", now.getTime() - 3*60*1000]);
-    forum_insert_post.run(["bob's message", "bob", now.getTime() - 1*60*1000]);
-    forum_insert_post.run(["man's message", "man", now.getTime()]);
-    forum_insert_post.run(["woman's message", "woman", now.getTime()]);
+    forum_insert_post.run(["Title 1", "hw16471's message", "hw16471", now.getTime() - 49*60*60*1000]);
+    forum_insert_post.run(["Title 2", "harry's message", "harry", now.getTime() - 5*60*60*1000]);
+    forum_insert_post.run(["Title", "finn's message", "finn", now.getTime() - 20*60*1000]);
+    forum_insert_post.run(["Title", "harry's message", "hw16471", now.getTime() - 8*60*1000]);
+    forum_insert_post.run(["Title", "fh16413's message", "fh16413", now.getTime() - 3*60*1000]);
+    forum_insert_post.run(["Title", "bob's message", "bob", now.getTime() - 1*60*1000]);
+    forum_insert_post.run(["Title", "man's message", "man", now.getTime()]);
+    forum_insert_post.run(["Title", "woman's message", "woman", now.getTime()]);
     replies_insert_reply.run([2, "harry's reply", "harry", now.getTime()]);
     replies_insert_reply.run([2, "he's replied again", "harry", now.getTime()]);
     replies_insert_reply.run([3, "finn's replied to his own message", "finn", now.getTime()]);
@@ -123,7 +124,7 @@ let db = new sqlite3.Database('./db/users.db', (err) => {
 /////////////////////////////////
 const db_schema =  "DROP TABLE IF EXISTS Accounts; DROP TABLE IF EXISTS Forum; DROP TABLE IF EXISTS Replies;\
                     CREATE TABLE IF NOT EXISTS Accounts (username TEXT PRIMARY KEY,password TEXT,avatar_id INT,session TEXT);\
-                    CREATE TABLE IF NOT EXISTS Forum (post_id INTEGER PRIMARY KEY AUTOINCREMENT,message TEXT,\
+                    CREATE TABLE IF NOT EXISTS Forum (post_id INTEGER PRIMARY KEY AUTOINCREMENT,title TEXT,message TEXT,\
                     username TEXT, time BIGINT, FOREIGN KEY (username) REFERENCES Accounts(username));\
                     CREATE TABLE IF NOT EXISTS Replies (reply_id INTEGER PRIMARY KEY AUTOINCREMENT,\
                     post_id INTEGER,message TEXT,username TEXT,time BIGINT,\
@@ -135,7 +136,7 @@ const account_select_username = db.prepare("SELECT * FROM Accounts WHERE usernam
 const account_select_session  = db.prepare("SELECT * FROM Accounts WHERE session=?");
 const account_insert          = db.prepare("REPLACE INTO Accounts (username,password,avatar_id,session) VALUES (?,?,?,?);");
 const account_logout          = db.prepare("REPLACE INTO Accounts (username,password,avatar_id,session) VALUES (?,?,?,NULL);");
-const forum_insert_post       = db.prepare("INSERT INTO Forum (post_id,message,username,time) VALUES (NULL,?,?,?);");
+const forum_insert_post       = db.prepare("INSERT INTO Forum (post_id,title,message,username,time) VALUES (NULL,?,?,?,?);");
 const forum_select            = db.prepare("SELECT * FROM Forum JOIN Accounts ON Forum.username=Accounts.username;");
 const replies_insert_reply    = db.prepare("INSERT INTO Replies (reply_id,post_id,message,username,time) VALUES (NULL,?,?,?,?);");
 const replies_select          = db.prepare("SELECT * FROM Replies JOIN Accounts ON Replies.username=Accounts.username;");
@@ -146,7 +147,7 @@ const replies_select_post     = db.prepare("SELECT * FROM Replies JOIN Accounts 
 /////////////////////////////////
 // Helper Functions
 /////////////////////////////////
-function create_user(username, password, password2, req, res){ 
+function create_user(username, password, password2, req, res){
   if (password === password2)  {
     insert_user(username, password, req.sessionID);
     res.render('pages/home', { welcome_name: username, logged_in: true  });
@@ -165,11 +166,11 @@ function insert_user(username, password, sessionID){
   });
 }
 
-function insert_post(message, req, res){
+function insert_post(post_title, post_msg, req, res){
   account_select_session.get([req.sessionID], (err, row) => {
     if (err) throw_error(err);
     var now = new Date();
-    forum_insert_post.run([message, row['username'], now.getTime()], () => {
+    forum_insert_post.run([post_title, post_msg, row['username'], now.getTime()], () => {
       render_forum('pages/forum', req, res);
     });
   });
@@ -222,7 +223,7 @@ function render_forum(view, req, res)  {
     if (err) throw_error(err);
     var forum_list=[];
     var now = new Date();
-    
+
     for (var r=0; r < rows.length; r++)  {
       var avatar_file = "media/avatar" + rows[r]['avatar_id'].toString() +".png";
       var time_string = get_time_string(now.getTime() - rows[r]['time']);
@@ -230,11 +231,11 @@ function render_forum(view, req, res)  {
                    avatar_img: avatar_file,
                    username:   rows[r]['username'],
                    time:       time_string,
+                   title:      rows[r]['title'],
                    message:    rows[r]['message']};
       forum_list.push(post);
     }
     existing_session(view, req, res, { posts : forum_list.reverse()});
-
   });
 }
 
@@ -247,7 +248,7 @@ function get_replies(post_id, req, res)  {
       res.send(false);
       return;
     }
-    
+
     for (var r=0; r < rows.length; r++)  {
       var avatar_file = get_avatar_file(rows[r]['avatar_id']);
       var time_string = get_time_string(now.getTime() - rows[r]['time']);
@@ -255,7 +256,7 @@ function get_replies(post_id, req, res)  {
                     username:   rows[r]['username'],
                     time:       time_string,
                     reply:      rows[r]['message'] };
-                    
+
       replies_list.push(reply);
     }
     var htmlRepliesString = pug.renderFile('views/pages/replies.pug', {replies: replies_list});
@@ -271,7 +272,7 @@ function logout(req, res)  {
     res.send(false);
     // res.render('pages/home', { welcome_name: 'there'});
   });
-} 
+}
 
 function throw_error(err, req, res)  {
   console.log(err);
@@ -293,4 +294,3 @@ function get_time_string(milliseconds)  {
   if (days < 365)    return Math.floor(days).toString() + " days ago";
   return "A while ago";
 }
-
