@@ -1,27 +1,38 @@
 extends ../layout.pug
 
 block main
-  section.hero.is-warning.is-2.is-bold
+  section.hero.is-warning.is-2
     .hero-body
-      .container.has-text-centered
-        h1.title Create New Account
+      .container.form-container.has-text-centered
+        p.is-fredoka.is-size-2 Create New Account
+        br
+        br
         if locals.error_msg
-          p= error_msg
+          p.is-text-yellow= error_msg
         form(method="POST", action='http://localhost:8080/new_user')
-          div.form-group
-            label(for="username") Username:
-            input#username.form-control(type="text", name="username")
+          .form-group.control.has-icons-left
+            input#username.form-control.input.is-medium(type="text", name="username", placeholder="Username")
+            span.icon.is-small.is-left
+              i.fas.fa-user
           br
-          div.form-group
-            label(for="password") Password:
-            input#password.form-control(type="text", name="password")
+          .form-group.control.has-icons-left
+            input#password.form-control.input.is-medium(type="text", name="password", placeholder="Password")
+            span.icon.is-small.is-left
+              i.fas.fa-lock
           br
-          div.form-group
-            label(for="password") Confirm Password:
-            input#password.form-control(type="text", name="password2")
+          .form-group.control.has-icons-left
+            input#password.form-control.input.is-medium(type="text", name="password2", placeholder="Confirm Password")
+            span.icon.is-small.is-left
+              i.fas.fa-lock
           br
-          button.btn.btn-primary(type="submit") Submit
-  section.hero
+          .field
+            .control
+              label.checkbox
+                input(type="checkbox")
+                =" I agree to the "
+                a(href="#")="Terms and Conditions"
+          button.button.is-medium.is-fredoka(type="submit") Submit
+  section.hero.header-image
     .hero-body
       .container.has-text-centered
-        br(style="line-height:19")
+        br(style="line-height:24")
