@@ -20,18 +20,44 @@ block main
 
   section.section.header-image
     div.columns
-      div.column.is-7
+      div.column.is-4
+        div.box
+          if locals.logged_in
+            article.media
+              figure.media-left
+                p.image.is-64x64
+                  img.is-rounded(src=avatar)
+              .media-content
+                .field
+                  form(method="POST", action='http://localhost:8080/create_post')
+                    label(for="post_title") Title
+                    .form-group.p.control
+                      textarea.textarea.has-fixed-size.form-control(type="text", name="post_title_box", rows="1")
+                    label(for="post_msg") Body
+                    .form-group.p.control
+                      textarea.textarea.has-fixed-size.form-control(type="text", name="post_msg_box", rows="7")
+                    .form-group.p.control
+                      div.field
+                        br
+                        button.button.is-info.form-control(type="submit") Create Post
+          else
+            h2
+              strong Please login to create a post.
+            br
+            a.button.is-button.is-link.login_button Login
+      div.column.is-8
         each post in posts
           div.box.postbox
             article.media
               figure.media-left
                 p.image.is-64x64
                   img.is-rounded(src=post['avatar_img'])
+                
               .media-content.replies-container
                 .content
-                  p
-                    strong=post['username']
-                    input.input_post_id(type="hidden", name="hidden_post_id", value=post['post_id'])
+                  h4 
+                    strong=post['title'] + " by " + post['username']
+                  input.input_post_id(type="hidden", name="hidden_post_id", value=post['post_id'])
                   p=post['message']
                     br
                     small
@@ -57,25 +83,4 @@ block main
         else
           div.box
             p No posts in the forum
-      div.column.is-5
-        div.box
-          if locals.logged_in
-            article.media
-              figure.media-left
-                p.image.is-64x64
-                  img.is-rounded(src=avatar)
-              .media-content
-                .field
-                  form(method="POST", action='http://localhost:8080/create_post')
-                    .form-group.p.control
-                      label(for="post") Anything we can do?
-                      textarea.textarea.has-fixed-size.form-control(placeholder='Go on spill it..', type="text", name="post", rows="7")
-                    .form-group.p.control
-                      div.field
-                        br
-                        button.button.is-info.form-control(type="submit") Create Post
-          else
-            h2
-              strong Please login to create a post.
-            br
-            a.button.is-button.is-link.login_button Login
+
