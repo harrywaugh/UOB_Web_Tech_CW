@@ -55,7 +55,7 @@ block main
                 
               .media-content.replies-container
                 .content
-                  h4 
+                  h4.is-fredoka
                     strong=post['title'] + " by " + post['username']
                   input.input_post_id(type="hidden", name="hidden_post_id", value=post['post_id'])
                   p=post['message']
@@ -78,8 +78,7 @@ block main
                               br
                               button.button.form-control(type="submit") Reply
                   else
-                    p
-                      strong Please login to reply to this post
+                    p.is-fredoka Please login to reply to this post
         else
           div.box
             p No posts in the forum
