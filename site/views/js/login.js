@@ -20,7 +20,7 @@ function hide_login()  {
     });
 }
 
-function throw_error(e)  { alert("Post Request Error!"); console.log("ERROR: ", e); }
+function throw_error(e)  {console.log(" PR ERROR: ", e); }
 function logged_in(valid_login)  {
     if(valid_login)  {
         $('#popup_login').fadeOut();
