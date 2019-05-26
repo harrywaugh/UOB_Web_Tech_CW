@@ -97,31 +97,26 @@ let db = new sqlite3.Database('./db/users.db', (err) => {
   console.log('Connection opened to database.');
   db.exec(db_schema, () => {
     insert_user("hw16471", "pass", "NULL");
-    insert_user("harry", "pass", "NULL");
-    insert_user("fh16413", "pass", "NULL");
-    insert_user("bob", "pass", "NULL");
-    insert_user("ian", "pass", "NULL");
-    insert_user("man", "pass", "NULL");
-    insert_user("woman", "pass", "NULL");
+    insert_user("Harry", "pass", "NULL");
+    insert_user("Finn", "pass", "NULL");
+    insert_user("KhaosFan123", "pass", "NULL");
     var now = new Date();
 
 
     let hash = bcrypt.hashSync('pass', 10);
     account_insert.run(["KhaosKitchen", hash,100,"NULL"]);
 
-    forum_insert_post.run(["OFFICIAL POST", "Post Message", "KhaosKitchen", now.getTime() - 49*60*60*1000]);
-    forum_insert_post.run(["Title 1", "hw16471's message", "hw16471", now.getTime() - 49*60*60*1000]);
-    forum_insert_post.run(["Title 2", "harry's message", "harry", now.getTime() - 5*60*60*1000]);
-    forum_insert_post.run(["Title", "finn's message", "finn", now.getTime() - 20*60*1000]);
-    forum_insert_post.run(["Title", "harry's message", "hw16471", now.getTime() - 8*60*1000]);
-    forum_insert_post.run(["Title", "fh16413's message", "fh16413", now.getTime() - 3*60*1000]);
-    forum_insert_post.run(["Title", "bob's message", "bob", now.getTime() - 1*60*1000]);
-    forum_insert_post.run(["Title", "man's message", "man", now.getTime()]);
-    forum_insert_post.run(["Title", "woman's message", "woman", now.getTime()]);
-    replies_insert_reply.run([3, "harry's reply", "harry", now.getTime()]);
-    replies_insert_reply.run([3, "he's replied again", "harry", now.getTime()]);
-    replies_insert_reply.run([4, "finn's replied to his own message", "finn", now.getTime()]);
-    replies_insert_reply.run([4, "Bob's getting in on the action", "finn", now.getTime()]);
+
+    forum_insert_post.run(["Release Date??", "When can I play Khaos Kitchen?? Very excited for it to come out!", "Finn", now.getTime() - 300*60*60*1000]);
+    forum_insert_post.run(["Successful Launch at Games Day!", "Khaos Kitchen is officially released! Thank you to everyone who came to the launch at Games Day! Download Khaos Kitchen now from the appstore!", "KhaosKitchen", now.getTime() - 200*60*60*1000]);
+    forum_insert_post.run(["New shop items???", "Will there be new costumes for my chef soon??", "KhaosFan123", now.getTime() - 100*60*60*1000]);
+    forum_insert_post.run(["Windows phone support?", "Would love to play this game on my windows phone. Any chance of windows phone support soon?", "Harry", now.getTime() - 20*60*60*1000]);
+    forum_insert_post.run(["New Update: Khaos Kitchen v1.1", "Whats new?\n\nBug Fixes.\nNew Skins! A range of new costumes for your chef available in the Top Chef Shop!", "KhaosKitchen", now.getTime() - 30*60*1000]);
+
+    replies_insert_reply.run([1, "Hi Finn!\n\nKhaos Kitchen is being released on May 14th! Come along to the launch at Merchant Venturer's Buillding!", "KhaosKitchen", now.getTime() - 295*60*60*1000]);
+    replies_insert_reply.run([2, "Had great fun playing Khaos Kitchen! Love your game!", "Finn", now.getTime() - 195*60*60*1000]);
+    replies_insert_reply.run([3, "We're working on a range of new skins for your chefs! They will be released very soon...", "KhaosKitchen", now.getTime()]);
+    replies_insert_reply.run([4, "Sorry Harry, no one has a windows phone!", "KhaosKitchen", now.getTime()]);
   });
 });
 
@@ -157,7 +152,7 @@ function create_user(username, password, password2, req, res){
   if (password === password2)  {
     account_select_username.all([username] , (err, rows) => {
       if (err) throw_error(err);
-      if(rows.length == 0) 
+      if(rows.length == 0)
         bcrypt.hash(password, 10, function(err, hash) {
           account_insert.run([username, hash, Math.floor(Math.random() * avatar_n),req.sessionID]);
           // res.render('pages/home', { welcome_name: username, logged_in: true  });
