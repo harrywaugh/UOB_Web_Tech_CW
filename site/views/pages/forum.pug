@@ -4,12 +4,12 @@ extends ../layout.pug
 block main
   section.hero.is-danger.is-bold.is-2
     .hero-body
-      .container.big-container.has-text-centered
+      .container.has-text-centered
         br
-        p.is-size-2.is-fredoka.has-text-shadow.is-text-yellow="Hey " + welcome_name + "! Welcome to the Khaos Kitchen forum!"
+        p.is-size-3.is-fredoka.has-text-shadow="Hey " + welcome_name + "! Welcome to the Khaos Kitchen forum!"
         br
       .container.has-text-centered
-        p.is-size-4.is-text-yellow
+        p.is-size-5
           | Here you can keep up to date with the latest Khaos Kitchen news, discuss Khaos Kitchen with the community and post
           | your own ideas and issues!
         br
@@ -52,10 +52,14 @@ block main
               figure.media-left
                 p.image.is-64x64
                   img.is-rounded(src=post['avatar_img'])
-                
+
               .media-content.replies-container
                 .content
+<<<<<<< HEAD
                   h4.is-fredoka
+=======
+                  h4
+>>>>>>> a482a6a6753bb7057c09ecfb76a5f5a3b3b772ec
                     strong=post['title'] + " by " + post['username']
                   input.input_post_id(type="hidden", name="hidden_post_id", value=post['post_id'])
                   p=post['message']
@@ -82,4 +86,3 @@ block main
         else
           div.box
             p No posts in the forum
-

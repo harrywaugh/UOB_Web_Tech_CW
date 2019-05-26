@@ -21,18 +21,20 @@ nav.navbar.is-dark.has-shadow
   .modal-background
   .modal-card#login_box
     header.modal-card-head
-      p.modal-card-title Login
+      p.modal-card-title.is-fredoka Login
       button#close_login.delete(aria-label='close')
     section.modal-card-body
       p#incorrect-login-msg.has-text-centered.has-text-danger Incorrect Login Details
       form#login_form(method="POST", action='http://localhost:8080/login')
-        .form-group
-          label(for="username") Username:
-          input#username.form-control(type="text", name="username")
-        br
-        .form-group
-          label(for="password") Password:
-          input#password.form-control(type="text", name="password")
-        br
-        button.btn.btn-primary(type="submit") Submit
-      a(href='/new_user') No account? Make one here
+        .field
+          p.form-group.control.has-icons-left
+            input#username.form-control.input.is-medium(type="text", name="username", placeholder="Username")
+            span.icon.is-small.is-left
+              i.fas.fa-user
+        .field
+          p.form-group.control.has-icons-left
+            input#password.form-control.input.is-medium(type="password", name="password", placeholder="Password")
+            span.icon.is-small.is-left
+              i.fas.fa-lock
+          button.button.is-fredoka.is-medium(type="submit") Submit
+      a(href='/new_user') No account? Register here

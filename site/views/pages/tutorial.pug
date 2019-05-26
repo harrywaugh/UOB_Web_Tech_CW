@@ -4,12 +4,12 @@ extends ../layout.pug
 block main
   section.hero.is-danger.is-2.is-bold
     .hero-body
-      .container.big-container.has-text-centered
+      .container.has-text-centered
         br
-        p.is-size-2.is-fredoka.has-text-shadow.is-text-yellow="Hey " + welcome_name + "! Here's how to play Khaos Kitchen!"
+        p.is-size-3.is-fredoka.has-text-shadow="Hey " + welcome_name + "! Here's how to play Khaos Kitchen!"
         br
       .container.has-text-centered
-        p.is-size-4.is-text-yellow
+        p.is-size-5
           | Khaos Kitchen is a fast-paced mobile party game where 2 to 8 players become the chefs of a crazy kitchen!
           | Players must work together to complete a wide range of tasks before the timer runs out to keep their
           | customers happy and keep their restaurant open for as long as possible!
@@ -21,17 +21,21 @@ block main
   section.header-image
     .slideshow-container.has-text-border.is-fredoka
       .mySlides.fade.has-text-centered
-        .numbertext.is-size-4 1 / 3
-        img.tutorial.img-has-shadow(src="../media/tutorial1.png", width="50%")
+        .numbertext.is-size-4 1 / 4
+        img.tutorial(src="../media/tutorial1.svg")
       .mySlides.fade.has-text-centered
-        .numbertext.is-size-4 2 / 3
-        img.tutorial.img-has-shadow(src="../media/tutorial2.png", width="50%")
+        .numbertext.is-size-4 2 / 4
+        img.tutorial(src="../media/tutorial2.svg")
       .mySlides.fade.has-text-centered
-        .numbertext.is-size-4 3 / 3
-        img.tutorial.img-has-shadow(src="../media/tutorial3.png", width="50%")
+        .numbertext.is-size-4 3 / 4
+        img.tutorial(src="../media/tutorial3.svg")
+      .mySlides.fade.has-text-centered
+        .numbertext.is-size-4 4 / 4
+        img.tutorial(src="../media/tutorial4.svg")
       a.prev(onclick="plusSlides(-1)") &#10094;
       a.next(onclick="plusSlides(1)") &#10095;
     div(style="text-align:center")
       span.dot(onclick="currentSlide(1)")
       span.dot(onclick="currentSlide(2)")
       span.dot(onclick="currentSlide(3)")
+      span.dot(onclick="currentSlide(4)")
