@@ -100,6 +100,7 @@ let db = new sqlite3.Database('./db/users.db', (err) => {
     insert_user("Harry", "pass", "NULL");
     insert_user("Finn", "pass", "NULL");
     insert_user("KhaosFan123", "pass", "NULL");
+    insert_user("Ian", "pass", "NULL");
     var now = new Date();
 
 
@@ -114,7 +115,7 @@ let db = new sqlite3.Database('./db/users.db', (err) => {
     forum_insert_post.run(["New Update: Khaos Kitchen v1.1", "Whats new?\n\nBug Fixes.\nNew Skins! A range of new costumes for your chef available in the Top Chef Shop!", "KhaosKitchen", now.getTime() - 30*60*1000]);
 
     replies_insert_reply.run([1, "Hi Finn!\n\nKhaos Kitchen is being released on May 14th! Come along to the launch at Merchant Venturer's Buillding!", "KhaosKitchen", now.getTime() - 295*60*60*1000]);
-    replies_insert_reply.run([2, "Had great fun playing Khaos Kitchen! Love your game!", "Finn", now.getTime() - 195*60*60*1000]);
+    replies_insert_reply.run([2, "Had great fun playing Khaos Kitchen! Love your game!", "Ian", now.getTime() - 195*60*60*1000]);
     replies_insert_reply.run([3, "We're working on a range of new skins for your chefs! They will be released very soon...", "KhaosKitchen", now.getTime()]);
     replies_insert_reply.run([4, "Sorry Harry, no one has a windows phone!", "KhaosKitchen", now.getTime()]);
   });
