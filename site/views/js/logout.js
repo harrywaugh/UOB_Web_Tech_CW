@@ -1,8 +1,8 @@
 "use strict";
 
-function throw_error(e)  { alert("Post Request Error!"); console.log("ERROR: ", e); }
+function throw_error(e)  {console.log("ERROR: ", e); }
 function reload_page()  {
-    location.reload(true);
+  location.reload(true);
 	return;
 }
 
@@ -17,11 +17,11 @@ $( document ).ready(function() {
     // Make post request
     $.ajax({
     	type        : "POST",
-        contentType : "application/json",
-        url         : "/logout",
-        dataType    : 'json',
-        success     : reload_page,
-        error       : throw_error
+      contentType : "application/json",
+      url         : "/logout",
+      dataType    : 'json',
+      success     : reload_page,
+      error       : throw_error
     });
   }
 })

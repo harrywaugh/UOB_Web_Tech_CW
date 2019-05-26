@@ -49,7 +49,7 @@ function click_off_postbox() {
 	});
 }
 
-function throw_error(e)  { alert("Post Request Error!"); console.log("ERROR: ", e); }
+function throw_error(e)  {console.log("ERROR: ", e); }
 function render_replies(html_string)  {
 	if( html_string == false )  return false;
 

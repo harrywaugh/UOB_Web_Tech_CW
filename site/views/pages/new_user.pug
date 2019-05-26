@@ -8,20 +8,20 @@ block main
         br
         br
         if locals.error_msg
-          p.is-text-yellow= error_msg
-        form(method="POST", action='http://localhost:8080/new_user')
+          p.is-text-danger= error_msg
+        form#create_user(method="POST", action='http://localhost:8080/')
           .form-group.control.has-icons-left
             input#username.form-control.input.is-medium(type="text", name="username", placeholder="Username")
             span.icon.is-small.is-left
               i.fas.fa-user
           br
           .form-group.control.has-icons-left
-            input#password.form-control.input.is-medium(type="password", name="password", placeholder="Password")
+            input#new_password.form-control.input.is-medium(type="password", name="password", placeholder="Password")
             span.icon.is-small.is-left
               i.fas.fa-lock
           br
           .form-group.control.has-icons-left
-            input#password.form-control.input.is-medium(type="password", name="password2", placeholder="Confirm Password")
+            input#new_password2.form-control.input.is-medium(type="password", name="password2", placeholder="Confirm Password")
             span.icon.is-small.is-left
               i.fas.fa-lock
           br

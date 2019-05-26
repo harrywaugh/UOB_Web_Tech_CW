@@ -64,9 +64,9 @@ app.post('/login', function (req, res) {
 app.post('/logout', function (req, res) {
   logout(req, res);
 })
-app.post('/new_user', function (req, res) {
-  var username = req.body.username;
-  var password = req.body.password;
+app.post('/', function (req, res) {
+  var username  = req.body.username;
+  var password  = req.body.password;
   var password2 = req.body.password2;
   create_user(username, password, password2, req, res);
 })
@@ -155,8 +155,15 @@ const replies_select_post     = db.prepare("SELECT * FROM Replies JOIN Accounts 
 /////////////////////////////////
 function create_user(username, password, password2, req, res){
   if (password === password2)  {
-    insert_user(username, password, req.sessionID);
-    res.render('pages/home', { welcome_name: username, logged_in: true  });
+    account_select_username.all([username] , (err, rows) => {
+      if (err) throw_error(err);
+      if(rows.length == 0) 
+        bcrypt.hash(password, 10, function(err, hash) {
+          account_insert.run([username, hash, Math.floor(Math.random() * avatar_n),req.sessionID]);
+          // res.render('pages/home', { welcome_name: username, logged_in: true  });
+          res.redirect('/');
+        });
+    });
   } else {
     res.render('pages/new_user', { error_msg: "Passwords dont match" })
   }
@@ -275,8 +282,8 @@ function logout(req, res)  {
   account_select_session.get([req.sessionID] , (err, row) => {
     if (err) throw_error(err, req, res);
     account_logout.run(row['username'],row['password'],row['avatar_id']);
-    res.send(false);
-    // res.render('pages/home', { welcome_name: 'there'});
+    res.send(true);
+    // res.render("pages/home",  Object.assign({}, { welcome_name: 'there', logged_in: false}));
   });
 }
 
