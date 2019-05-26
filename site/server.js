@@ -104,6 +104,12 @@ let db = new sqlite3.Database('./db/users.db', (err) => {
     insert_user("man", "pass", "NULL");
     insert_user("woman", "pass", "NULL");
     var now = new Date();
+
+
+    let hash = bcrypt.hashSync('pass', 10);
+    account_insert.run(["KhaosKitchen", hash,100,"NULL"]);
+
+    forum_insert_post.run(["OFFICIAL POST", "Post Message", "KhaosKitchen", now.getTime() - 49*60*60*1000]);
     forum_insert_post.run(["Title 1", "hw16471's message", "hw16471", now.getTime() - 49*60*60*1000]);
     forum_insert_post.run(["Title 2", "harry's message", "harry", now.getTime() - 5*60*60*1000]);
     forum_insert_post.run(["Title", "finn's message", "finn", now.getTime() - 20*60*1000]);
@@ -112,10 +118,10 @@ let db = new sqlite3.Database('./db/users.db', (err) => {
     forum_insert_post.run(["Title", "bob's message", "bob", now.getTime() - 1*60*1000]);
     forum_insert_post.run(["Title", "man's message", "man", now.getTime()]);
     forum_insert_post.run(["Title", "woman's message", "woman", now.getTime()]);
-    replies_insert_reply.run([2, "harry's reply", "harry", now.getTime()]);
-    replies_insert_reply.run([2, "he's replied again", "harry", now.getTime()]);
-    replies_insert_reply.run([3, "finn's replied to his own message", "finn", now.getTime()]);
-    replies_insert_reply.run([3, "Bob's getting in on the action", "finn", now.getTime()]);
+    replies_insert_reply.run([3, "harry's reply", "harry", now.getTime()]);
+    replies_insert_reply.run([3, "he's replied again", "harry", now.getTime()]);
+    replies_insert_reply.run([4, "finn's replied to his own message", "finn", now.getTime()]);
+    replies_insert_reply.run([4, "Bob's getting in on the action", "finn", now.getTime()]);
   });
 });
 
