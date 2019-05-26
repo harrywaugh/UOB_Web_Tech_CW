@@ -112,7 +112,7 @@ let db = new sqlite3.Database('./db/users.db', (err) => {
     forum_insert_post.run(["Successful Launch at Games Day!", "Khaos Kitchen is officially released! Thank you to everyone who came to the launch at Games Day! Download Khaos Kitchen now from the appstore!", "KhaosKitchen", now.getTime() - 200*60*60*1000]);
     forum_insert_post.run(["New shop items???", "Will there be new costumes for my chef soon??", "KhaosFan123", now.getTime() - 100*60*60*1000]);
     forum_insert_post.run(["Windows phone support?", "Would love to play this game on my windows phone. Any chance of windows phone support soon?", "Harry", now.getTime() - 20*60*60*1000]);
-    forum_insert_post.run(["New Update: Khaos Kitchen v1.1", "Whats new?\n\nBug Fixes.\nNew Skins! A range of new costumes for your chef available in the Top Chef Shop!", "KhaosKitchen", now.getTime() - 30*60*1000]);
+    forum_insert_post.run(["New Update: Khaos Kitchen v1.1", "Whats new?\n\nBug Fixes.\nNew Skins! A range of new costumes for your chef available in the Top Chef Shop! Download the update now from the appstore.", "KhaosKitchen", now.getTime() - 30*60*1000]);
 
     replies_insert_reply.run([1, "Hi Finn!\n\nKhaos Kitchen is being released on May 14th! Come along to the launch at Merchant Venturer's Buillding!", "KhaosKitchen", now.getTime() - 295*60*60*1000]);
     replies_insert_reply.run([2, "Had great fun playing Khaos Kitchen! Love your game!", "Ian", now.getTime() - 195*60*60*1000]);
