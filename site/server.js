@@ -104,6 +104,12 @@ let db = new sqlite3.Database('./db/users.db', (err) => {
     insert_user("man", "pass", "NULL");
     insert_user("woman", "pass", "NULL");
     var now = new Date();
+
+    bcrypt.hash("pass", 10, function(err, hash) {
+        account_insert.run(["KhaosKitchen", hash,100,"NULL"]);
+    });
+
+    forum_insert_post.run(["OFFICIAL POST", "Post Message", "KhaosKitchen", now.getTime() - 49*60*60*1000]);
     forum_insert_post.run(["Title 1", "hw16471's message", "hw16471", now.getTime() - 49*60*60*1000]);
     forum_insert_post.run(["Title 2", "harry's message", "harry", now.getTime() - 5*60*60*1000]);
     forum_insert_post.run(["Title", "finn's message", "finn", now.getTime() - 20*60*1000]);
